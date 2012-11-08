@@ -25,18 +25,20 @@ public class TimingTestSuiteTest extends TestCase {
    */
   public static class TimedTests extends TestCase {
     // Warning, the declaration order of these tests is important to testGetOrder below
+    // Unfortunately, Java 7 Class.getDeclaredMethods returns methods in arbitrary order.
+
     public final void testMedium() throws Exception {
       System.out.println("Medium");
       Thread.sleep(MED_DELAY);
     }
 
+    public final void testShort() {
+      System.out.println("Short");
+    }
+    
     public final void testLong() throws Exception {
       System.out.println("Long");
       Thread.sleep(LONG_DELAY);
-    }
-
-    public final void testShort() {
-      System.out.println("Short");
     }
   }
 
@@ -66,9 +68,10 @@ protected void tearDown() {
   public final void testGetOrder() {
     TestOrder order = mSuite.getOrder(true);
     assertEquals(3, order.getTestCount());
-    assertEquals(2, order.getTestIndex(0));
-    assertEquals(0, order.getTestIndex(1));
-    assertEquals(1, order.getTestIndex(2));
+    // TODO: enable these again once we change TestOrder API to handle Java 7's non-deterministic method ordering.
+    //assertEquals(2, order.getTestIndex(0));
+    //assertEquals(0, order.getTestIndex(1));
+    //assertEquals(1, order.getTestIndex(2));
     // A bit dangerous
     assertTrue(MED_DELAY + LONG_DELAY <= mSuite.getTotalRuntime());
     assertTrue(mSuite.getTotalRuntime() < (MED_DELAY + LONG_DELAY * 1.5));
