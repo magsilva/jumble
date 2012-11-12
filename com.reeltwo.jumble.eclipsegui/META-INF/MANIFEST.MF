@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipsegui
+Bundle-SymbolicName: com.reeltwo.jumble.eclipsegui; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.reeltwo.jumble.eclipsegui.Activator
+Bundle-Vendor: REELTWO
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.debug.core;bundle-version="3.7.100",
+ org.eclipse.debug.ui;bundle-version="3.8.1",
+ org.eclipse.jdt.core;bundle-version="3.8.2",
+ org.eclipse.jdt.launching;bundle-version="3.6.100",
+ org.eclipse.ui.ide;bundle-version="3.8.1",
+ org.eclipse.ui.console;bundle-version="3.5.100"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Export-Package: com.reeltwo.jumble.eclipsegui,
+ com.reeltwo.jumble.eclipsegui.handlers,
+ com.reeltwo.jumble.eclipsegui.preferences
+Bundle-ClassPath: jumble-annotations.jar,
+ jumble.jar

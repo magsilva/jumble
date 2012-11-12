@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Jumble Category"
+            id="com.reeltwo.jumble.eclipsegui.commands.category">
+      </category>
+      <command
+            categoryId="com.reeltwo.jumble.eclipsegui.commands.category"
+            id="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+            name="Jumble a Class">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+            class="com.reeltwo.jumble.eclipsegui.handlers.JumbleClass">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         id="com.reeltwo.jumble"
+         name="Jumble"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="menu:file?after=additions">
+         <menu
+               id="jumbleMenu"
+               label="Jumble Mutation Tester">
+            <command
+                  commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
+         <menu
+               id="jumbleMenu"
+               label="Jumble Mutation Tester">
+            <command
+                  commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.jdt.ui.CompilationUnitEditor.EditorContext?after=additions">
+         <menu
+               id="jumbleMenu"
+               label="Jumble Mutation Tester"
+               tooltip="Perform a mutation analysis of this class to measure the effectiveness of its tests.">
+            <command
+                  commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+                  style="push"
+                  tooltip="Perform a mutation analysis of this class to measure the effectiveness of its tests.">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         id="com.reeltwo.jumble.eclipsegui.preferences.JumblePreferencePage"
+         name="Jumble Mutation Tester"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.reeltwo.jumble.eclipsegui.preferences.JumblePreferencePage"
+            id="com.reeltwo.jumble.eclipsegui.preferences.JumblePreferencePage"
+            name="Jumble Mutation Tester">
+      </page>
+   </extension>
+   <extension
+         id="com.reeltwo.jumble.eclipsegui.preferences.PreferenceInitializer"
+         name="JumblePreferences"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.reeltwo.jumble.eclipsegui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
