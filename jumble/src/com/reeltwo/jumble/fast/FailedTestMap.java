@@ -21,7 +21,7 @@ import com.reeltwo.jumble.util.ClassLoaderCloneable;
  *
  */
 public class FailedTestMap implements Serializable, ClassLoaderCloneable {
-  /**
+  /*
    * The map itself: ClassName.MethodName(String) -> (mutationPoint(Integer) ->
    * testName(String))(Map)
    */

@@ -33,7 +33,7 @@ public class JumbleUtils {
    * Checks if the given class is a JUnit 3 test class.
    * 
    * @param clazz the class to check.
-   * @return if clazz is a test class, false otherwise.
+   * @return if {@code clazz} is a test class, false otherwise.
    */
   public static boolean isJUnit3TestClass(Class<?> clazz) {
     Class<?> tmp = clazz;

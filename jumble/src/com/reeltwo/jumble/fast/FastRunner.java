@@ -340,57 +340,57 @@ public class FastRunner {
   }
 
   /**
-   * Gets the value of loadCache
+   * Gets the value of {@code loadCache}
    *
-   * @return the value of loadCache
+   * @return the value of {@code loadCache}
    */
   public boolean isLoadCache() {
     return mLoadCache;
   }
 
   /**
-   * Sets the value of loadCache
+   * Sets the value of {@code loadCache}
    *
    * @param argLoadCache
-   *          Value to assign to loadCache
+   *          Value to assign to {@code loadCache}
    */
   public void setLoadCache(final boolean argLoadCache) {
     mLoadCache = argLoadCache;
   }
 
   /**
-   * Gets the value of saveCache
+   * Gets the value of {@code saveCache}
    *
-   * @return the value of saveCache
+   * @return the value of {@code saveCache}
    */
   public boolean isSaveCache() {
     return mSaveCache;
   }
 
   /**
-   * Sets the value of saveCache
+   * Sets the value of {@code saveCache}
    *
    * @param argSaveCache
-   *          Value to assign to saveCache
+   *          Value to assign to {@code saveCache}
    */
   public void setSaveCache(final boolean argSaveCache) {
     mSaveCache = argSaveCache;
   }
 
   /**
-   * Gets the value of useCache
+   * Gets the value of {@code useCache}
    *
-   * @return the value of useCache
+   * @return the value of {@code useCache}
    */
   public boolean isUseCache() {
     return mUseCache;
   }
 
   /**
-   * Sets the value of useCache
+   * Sets the value of {@code useCache}
    *
    * @param argUseCache
-   *          Value to assign to useCache
+   *          Value to assign to {@code useCache}
    */
   public void setUseCache(final boolean argUseCache) {
     mUseCache = argUseCache;
@@ -498,7 +498,7 @@ public class FastRunner {
     mTestMap = new HashMap<String, List<String>>();
   }
 
-  /**
+  /*
    * When each mutation result is read from the child process, the corresponding statistic records
    * get updated accordingly and is put into the mStats map.
    *  
@@ -636,7 +636,7 @@ public class FastRunner {
           for (String tClass : mTestMap.keySet()) {
             List<String> tests = mTestMap.get(tClass);
             for (String test : tests) {
-              /**
+              /*
                * For each of the MutationKey combination, we try to find a corresponding
                * statistic record from the mStats map. The stat contains the mutation
                * test status : PASS | FAIL | TIMEOUT; and the test run time.
@@ -661,7 +661,7 @@ public class FastRunner {
                 }
               }
 
-              /**
+              /*
                * If no stat record is found, the test is not run.
                */
               if (!isFound) {
@@ -681,7 +681,7 @@ public class FastRunner {
     }
   }
 
-  /**
+  /*
    * Writes the statistic results into file as a binary matrix.
    * 1  passed
    * 0  failed
@@ -722,7 +722,7 @@ public class FastRunner {
                 testCount++;
               }
 
-              /**
+              /*
                * For each of the MutationKey combination, we try to find a corresponding
                * statistic record from the mStats map. The stat contains the mutation
                * test status : PASS | FAIL | TIMEOUT; and the test run time.
@@ -766,7 +766,7 @@ public class FastRunner {
                 colCountMap.put(test, 0);
               }
 
-              /**
+              /*
                * If no stat record is found, the test is not run.
                */
                if (!isFound) {
@@ -1131,7 +1131,7 @@ public class FastRunner {
     }
   }
 
-  /**
+  /*
    * Runs tests without mutating at all. If all OK, write out testsuitefile for
    * later use, otherwise return a JumbleResult
    */
@@ -1424,7 +1424,7 @@ public class FastRunner {
   /**
    * Set the index of the first mutation to attempt.
    *
-   * @param newFirstMutation the new FirstMutation value.
+   * @param newFirstMutation the new first mutation value.
    */
   public void setFirstMutation(final int newFirstMutation) {
     mFirstMutation = newFirstMutation;

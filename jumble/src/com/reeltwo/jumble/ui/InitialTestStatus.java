@@ -10,7 +10,7 @@ public class InitialTestStatus {
   //Prevent instantiation
   private InitialTestStatus() {  
   }
-  /** Tests ran successfilly */
+  /** Tests ran successfully */
   public static final int OK = 0;
   
   /** Tests failed */
