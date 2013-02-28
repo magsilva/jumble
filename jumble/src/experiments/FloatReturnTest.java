@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Test for com.reeltwo.jumble testing.
+ * Test for jumble testing.
  * 
  * @author Tin Pavlinic
  * @version $Revision$
