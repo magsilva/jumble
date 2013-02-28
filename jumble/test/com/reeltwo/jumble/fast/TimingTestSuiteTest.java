@@ -47,7 +47,7 @@ public class TimingTestSuiteTest extends TestCase {
   private TestResult mResult = null;
 
   @Override
-protected void setUp() throws Exception {
+  protected void setUp() throws Exception {
     mSuite = new TimingTestSuite(getClass().getClassLoader(), new String[] {TimedTests.class.getName()});
     mResult = new TestResult();
     PrintStream oldOut = System.out;
@@ -60,7 +60,7 @@ protected void setUp() throws Exception {
   }
 
   @Override
-protected void tearDown() {
+  protected void tearDown() {
     mSuite = null;
     mResult = null;
   }
@@ -68,7 +68,7 @@ protected void tearDown() {
   public final void testGetOrder() {
     TestOrder order = mSuite.getOrder(true);
     assertEquals(3, order.getTestCount());
-    // TODO: enable these again once we change TestOrder API to handle Java 7's non-deterministic method ordering.
+    // TODO enable these again once we change TestOrder API to handle Java 7's non-deterministic method ordering.
     //assertEquals(2, order.getTestIndex(0));
     //assertEquals(0, order.getTestIndex(1));
     //assertEquals(1, order.getTestIndex(2));
