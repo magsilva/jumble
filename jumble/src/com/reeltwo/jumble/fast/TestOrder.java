@@ -115,7 +115,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
 
   /**
    * Clones this object using a different class loader to achieve
-   * class isolation.  In our application, the classloader will mutate
+   * class isolation.  In our application, the class loader will mutate
    * the class being tested.
    * 
    * @param loader the new class loader
