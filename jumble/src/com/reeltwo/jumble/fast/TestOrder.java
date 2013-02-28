@@ -56,7 +56,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
    * Creates a new TestOrder with the specified test classes and ordering
    * 
    * @param testClasses
-   * @param order order permuation
+   * @param order order permutation
    */
   public TestOrder(Class[] testClasses, int[] order) {
     mTestClasses = new String[testClasses.length];
@@ -71,7 +71,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
    * Constructor used to clone the object.
    * 
    * @param testClasses string of test classes
-   * @param order order permuation
+   * @param order order permutation
    */
   public TestOrder(String[] testClasses, int[] order) {
     mTestClasses = testClasses;
