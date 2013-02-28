@@ -5,8 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Tests the JumblerExperiment class (inadequately) for
- * com.reeltwo.jumble testing.
+ * Tests the JumblerExperiment class (inadequately) for testing.
  * @author Tin Pavlinic
  * @version $Revision$
  */

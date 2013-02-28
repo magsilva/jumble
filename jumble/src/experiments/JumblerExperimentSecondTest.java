@@ -3,7 +3,7 @@ package experiments;
 import junit.framework.TestCase;
 
 /**
- * Silly test for com.reeltwo.jumble testing
+ * Silly test for jumble testing
  * @author Tin Pavlinic
  * @version $Revision$
  */

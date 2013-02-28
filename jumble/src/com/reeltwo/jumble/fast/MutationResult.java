@@ -1,8 +1,7 @@
 package com.reeltwo.jumble.fast;
 
 /**
- * Class representing the result of a single mutation test. Possibly should be
- * moved to package com.reeltwo.jumble.
+ * Class representing the result of a single mutation test.
  *
  * @author Tin Pavlinic
  * @version $Revision$
@@ -25,8 +24,6 @@ public class MutationResult {
 
   // Describes the test that detected the mutation
   private String mTestDescription;
-
-
 
   public MutationResult(int status, String className, int point, String description, String testDescription) {
     this(status, className, point, description);

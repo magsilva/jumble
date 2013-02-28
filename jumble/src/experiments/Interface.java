@@ -1,7 +1,7 @@
 package experiments;
 
 /**
- * An interface to use in testing com.reeltwo.jumble
+ * An interface to use in testing jumble.
  * @author Tin Pavlinic
  * @version $Revision$
  */

@@ -27,8 +27,7 @@ public interface JumbleResult {
   List<String> getTestClasses();
 
   /**
-   * Determines whether the initial tests passes. Calls <CODE>
-   * getInitialTestResult()</CODE>.
+   * Determines whether the initial tests passes. Calls {@code getInitialTestResult()}.
    * 
    * @return true if the initial tests passed, false otherwise.
    */

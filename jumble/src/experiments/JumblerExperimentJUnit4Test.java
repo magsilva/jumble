@@ -5,7 +5,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 /**
  * Tests the JumblerExperiment class (inadequately) for
- * com.reeltwo.jumble testing. Uses JUnit 4.
+ * jumble testing. Uses JUnit 4.
  * @author Tin Pavlinic
  * @version $Revision$
  */

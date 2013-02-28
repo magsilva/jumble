@@ -8,14 +8,13 @@ import junit.framework.TestResult;
  * in order of runtime. Example usage: <BR>
  * <BR>
  *
- * <PRE>
- *
+ * <pre>
  * TimingTestSuite suite = new TimingTestSuite (new Class[] { MathTest.class,
  *        StringTest.class});
  *
  * suite.run(new TestResult());
  * TestOrder order = suite.getOrder();
- * </PRE>
+ * </pre>
  * <BR>
  * This can then be used by Jumble to run the tests on the mutated class in
  * order so that it fails quickly.
@@ -31,14 +30,13 @@ public class TimingTestSuite extends FlatTestSuite {
 
   /**
    * The test classes used to create this suite. Only so they can be passed to
-   * the <CODE>TestOrder</CODE>
+   * the {@code TestOrder}
    */
   private Class[] mTestClasses;
 
 
   /**
-   * Constructs a test suite from the test classes given in <CODE>testClasses
-   * </CODE>
+   * Constructs a test suite from the test classes given in {@code testClasses}
    *
    * @param loader a <code>ClassLoader</code> used to load the test classes.
    * @param classNames an array of the names of classes of test suites to run
@@ -55,7 +53,7 @@ public class TimingTestSuite extends FlatTestSuite {
 
   /**
    * Runs the tests and records their runtimes. The test results are returned in
-   * <CODE>result</CODE> as usual in JUnit.
+   * {@code result} as usual in JUnit.
    */
   @Override
   public void run(TestResult result) {

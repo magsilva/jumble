@@ -71,10 +71,8 @@ public class FlatTestSuite extends TestSuite {
   /**
    * Constructs a new FlatTestSuite. Just calls the parent constructor.
    *
-   * @param theClass
-   *          the class to construct the test suite from.
-   * @param name
-   *          the name of the test suite
+   * @param theClass the class to construct the test suite from.
+   * @param name the name of the test suite
    */
   public FlatTestSuite(final Class<? extends TestCase> theClass, final String name) {
     super(theClass, name);
@@ -83,8 +81,7 @@ public class FlatTestSuite extends TestSuite {
   /**
    * Constructs a new FlatTestSuite. Just calls the parent constructor.
    *
-   * @param name
-   *          the neame of the test suite
+   * @param name the name of the test suite
    */
   public FlatTestSuite(final String name) {
     super(name);

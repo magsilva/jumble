@@ -61,7 +61,7 @@ public class MutatingClassLoader extends ClassLoader {
 
   private final ClassPath mClassPath;
 
-  /** List of prefixes of classes to defer to parent classloader. */
+  /** List of prefixes of classes to defer to parent class loader. */
   private String[] mDeferPrefixes = DEFERRED_PREFIXES;
 
   /** Exceptions to the above list. */
@@ -79,7 +79,7 @@ public class MutatingClassLoader extends ClassLoader {
    * @param mutater a <code>Mutater</code> value that will carry out
    * mutations.
    * @param classpath a <code>String</code> value supplying the
-   * classes visible to the classloader.
+   * classes visible to the class loader.
    */
   public MutatingClassLoader(final String target, final Mutater mutater, final String classpath) {
     mTarget = target;
