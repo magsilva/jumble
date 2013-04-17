@@ -3,6 +3,7 @@ package com.reeltwo.jumble;
 
 import com.reeltwo.jumble.annotations.JumbleAnnotationProcessor;
 import com.reeltwo.jumble.fast.FastRunner;
+import com.reeltwo.jumble.ui.EclipseFormatListener;
 import com.reeltwo.jumble.ui.EmacsFormatListener;
 import com.reeltwo.jumble.ui.JumbleListener;
 import com.reeltwo.jumble.ui.JumbleScorePrinterListener;
@@ -11,24 +12,25 @@ import com.reeltwo.util.CLIFlags;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * A CLI interface to the <CODE>FastRunner</CODE>.
- * 
+ *
  * @author Tin Pavlinic
  * @version $Revision$
  */
 public class Jumble {
-  private FastRunner mFastRunner;
-  
+  private final FastRunner mFastRunner;
+
   public Jumble() {
     mFastRunner = new FastRunner();
   }
-  
+
   /**
    * Main method.
-   * 
+   *
    * @param args command line arguments. Use -h to see the expected arguments.
    */
   public static void main(String[] args) throws Exception {
@@ -84,7 +86,11 @@ public class Jumble {
     mFastRunner.setVerbose(verboseFlag.isSet());
     mFastRunner.setClassPath(classpathFlag.getValue());
     mFastRunner.setRecStat(recFlag.isSet());
-    
+
+    if (mFastRunner.isVerbose()) {
+      System.err.println("Jumble invoked with args: " + Arrays.toString(args));
+    }
+
     if (lengthFlag.isSet()) {
       int val = lengthFlag.getValue();
       if (val >= 0) {
@@ -100,8 +106,8 @@ public class Jumble {
 
     if (exFlag.isSet()) {
       String[] tokens = exFlag.getValue().split(",");
-      for (int i = 0; i < tokens.length; i++) {
-        mFastRunner.addExcludeMethod(tokens[i]);
+      for (String token : tokens) {
+        mFastRunner.addExcludeMethod(token);
       }
     }
 
@@ -135,11 +141,14 @@ public class Jumble {
       testList.addAll(getTestClassNames(className, mFastRunner.getClassPath()));
     }
 
-    JumbleListener listener = emacsFlag.isSet() 
-      ? new EmacsFormatListener(sourcepathFlag.isSet() ? sourcepathFlag.getValue() : classpathFlag.getValue()) 
-      : !printFlag.isSet() 
-      ? new JumbleScorePrinterListener()
-      : getListener(printFlag.getValue());
+    final JumbleListener listener;
+    if (emacsFlag.isSet()) {
+      listener = new EmacsFormatListener(sourcepathFlag.isSet() ? sourcepathFlag.getValue() : classpathFlag.getValue());
+    } else if (!printFlag.isSet()) {
+      listener = new JumbleScorePrinterListener();
+    } else {
+      listener = getListener(printFlag.getValue());
+    }
     mFastRunner.runJumble(className, testList, listener);
   }
 
@@ -171,21 +180,21 @@ public class Jumble {
       return testNamesFromAnnotation;
     }
   }
-  
+
   /**
    * Guesses the name of a test class used for testing a particular class. It
    * assumes the following conventions:
    * <p>
-   * 
+   *
    * <ul>
-   * 
+   *
    * <li> Unit test classes end with <code>Test</code>
-   * 
+   *
    * <li> An abstract classes are named such as <code>AbstractFoo</code> and
    * have a test class named such as <code>DummyFooTest</code>
-   * 
+   *
    * </ul>
-   * 
+   *
    * @param className
    *          a <code>String</code> value
    * @return the name of the test class that is expected to test
@@ -210,7 +219,7 @@ public class Jumble {
 
   /**
    * Returns a <code>JumbleListener</code> instance as specified by <CODE>className</CODE>.
-   * 
+   *
    * @param className
    *          name of class to instantiate.
    * @return a <CODE>JumbleListener</CODE> instance.
@@ -243,7 +252,7 @@ public class Jumble {
   /**
    * A function which computes the timeout for given that the original test took
    * <CODE>runtime</CODE>
-   * 
+   *
    * @param runtime
    *          the original runtime
    * @return the computed timeout

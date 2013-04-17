@@ -5,7 +5,7 @@ import junit.framework.TestSuite;
 
 /**
  * Runs all the tests in this package.
- * 
+ *
  * @author Tin Pavlinic
  * @version $Revision 1.0 $
  */
@@ -14,7 +14,8 @@ public class AllTests extends TestSuite {
     TestSuite suite = new TestSuite();
 
     suite.addTest(JumbleScorePrinterListenerTest.suite());
-    
+    suite.addTest(EclipseFormatListenerTest.suite());
+
     return suite;
   }
 

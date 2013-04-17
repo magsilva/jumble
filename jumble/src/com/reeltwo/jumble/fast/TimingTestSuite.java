@@ -32,7 +32,7 @@ public class TimingTestSuite extends FlatTestSuite {
    * The test classes used to create this suite. Only so they can be passed to
    * the {@code TestOrder}
    */
-  private Class[] mTestClasses;
+  private final Class<?>[] mTestClasses;
 
 
   /**
@@ -75,8 +75,8 @@ public class TimingTestSuite extends FlatTestSuite {
       throw new RuntimeException("Cannot call getTotalRuntime() before the tests have been run");
     }
     long sum = 0;
-    for (int i = 0; i < mRuntimes.length; i++) {
-      sum += mRuntimes[i];
+    for (long mRuntime : mRuntimes) {
+      sum += mRuntime;
     }
     return sum;
   }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Prints the results of a Jumble run to a <code>PrintStream</code>, this will
  * usually be <code>System.out</code>.
- * 
+ *
  * @author Tin Pavlinic
  * @version $Revision$
  */
@@ -16,7 +16,7 @@ public class JumbleScorePrinterListener implements JumbleListener {
 
   private static final int DOTS_PER_LINE = 50;
 
-  private PrintStream mStream;
+  private final PrintStream mStream;
 
   private int mCovered = 0;
 
@@ -40,14 +40,15 @@ public class JumbleScorePrinterListener implements JumbleListener {
     mStream = output;
   }
 
+  @Override
   public void jumbleRunEnded() {
     if (mInitialTestsPassed) {
       getStream().println();
       printResultsForNormalRun();
     }
-
   }
 
+  @Override
   public void finishedMutation(MutationResult res) {
     if (res.isPassed()) {
       getStream().print(".");
@@ -58,9 +59,15 @@ public class JumbleScorePrinterListener implements JumbleListener {
       mCovered++;
       newDot();
     } else {
-      getStream().println("M FAIL: " + res.getDescription());
+      getStream().println(failMessage(res));
       mDotCount = 0;
     }
+  }
+
+  protected static final String MUT_FAIL = "M FAIL: ";
+
+  protected String failMessage(MutationResult res) {
+    return MUT_FAIL + res.getDescription();
   }
 
   private void newDot() {
@@ -71,6 +78,7 @@ public class JumbleScorePrinterListener implements JumbleListener {
     }
   }
 
+  @Override
   public void jumbleRunStarted(String className, List<String> testClassNames) {
     mMutationCount = 0;
     mCovered = 0;
@@ -79,6 +87,7 @@ public class JumbleScorePrinterListener implements JumbleListener {
     mStartTime = System.currentTimeMillis();
   }
 
+  @Override
   public void performedInitialTest(JumbleResult result, int mutationCount) {
     mInitialTestsPassed = result.initialTestsPassed();
     mMutationCount = mutationCount;
@@ -125,6 +134,7 @@ public class JumbleScorePrinterListener implements JumbleListener {
     getStream().println("Mutation points = 0");
   }
 
+  @Override
   public void error(String errorMsg) {
     getStream().println("ERROR: " + errorMsg);
   }

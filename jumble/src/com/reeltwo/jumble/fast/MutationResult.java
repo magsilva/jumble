@@ -13,14 +13,14 @@ public class MutationResult {
 
   public static final int TIMEOUT = 2;
 
-  private int mStatus;
+  private final int mStatus;
 
-  private String mClassName;
+  private final String mClassName;
 
-  private int mPoint;
+  private final int mPoint;
 
   // Describes the mutation applied
-  private String mDescription;
+  private final String mDescription;
 
   // Describes the test that detected the mutation
   private String mTestDescription;
@@ -48,10 +48,16 @@ public class MutationResult {
     return mPoint;
   }
 
+  /**
+   * @return Describes the mutation applied.
+   */
   public String getDescription() {
     return mDescription;
   }
 
+  /**
+   * @return Describes the test that detected the mutation.
+   */
   public String getTestDescription() {
     return mTestDescription;
   }
@@ -72,8 +78,11 @@ public class MutationResult {
     return mStatus;
   }
 
+  /**
+   * @return Same as <code>getDescription()</code>.
+   */
   @Override
-public String toString() {
+  public String toString() {
     return getDescription();
   }
 

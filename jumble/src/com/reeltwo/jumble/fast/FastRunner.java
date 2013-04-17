@@ -56,7 +56,7 @@ public class FastRunner {
 
   /** Whether to mutate switches */
   private boolean mSwitches = true;
-  
+
   /** Whether to mutate strings*/
   private boolean mStrings = true;
 
@@ -84,11 +84,11 @@ public class FastRunner {
    */
   private int mFirstMutation = 0;
 
-  private Set<String> mExcludeMethods = new HashSet<String>();
+  private final Set<String> mExcludeMethods = new HashSet<String>();
 
-  private Set<String> mDeferredClasses = new HashSet<String>();
+  private final Set<String> mDeferredClasses = new HashSet<String>();
 
-  private List<String> mJvmArgs = new ArrayList<String>();
+  private final List<String> mJvmArgs = new ArrayList<String>();
 
   // State during run
 
@@ -284,20 +284,20 @@ public class FastRunner {
   public void setCPool(final boolean cpool) {
     mCPool = cpool;
   }
-  
+
   /**
    * Sets whether strings in the constant pool will be mutated.
-   * 
+   *
    * @return true if strings should be mutated
    */
   public boolean isStrings() {
     return mStrings;
   }
-  
+
   /**
    * Sets whether strings in the constant pool will be mutated.
-   * 
-   * @param strings true if strings in the constant pool will be mutated. 
+   *
+   * @param strings true if strings in the constant pool will be mutated.
    */
   public void setStrings(final boolean strings) {
     mStrings = strings;
@@ -407,7 +407,7 @@ public class FastRunner {
 
   /**
    * Gets whether record statistics mode is set.
-   * 
+   *
    * @return true if record statistics mode is enabled.
    */
   public boolean isRecStat() {
@@ -416,7 +416,7 @@ public class FastRunner {
 
   /**
    * Sets whether record statistic mode is enabled.
-   * 
+   *
    * @param recStat
    */
   public void setRecStat(final boolean recStat) {
@@ -469,7 +469,7 @@ public class FastRunner {
         String[] segs = test.split("/");
         String testName = segs[1];
         int status = Integer.parseInt(segs[2]);
-        if (status == 0) { 
+        if (status == 0) {
           mCache.addFailure(clazzName, methodName, mutPoint, testName);
           break;
         }
@@ -501,31 +501,31 @@ public class FastRunner {
   /*
    * When each mutation result is read from the child process, the corresponding statistic records
    * get updated accordingly and is put into the mStats map.
-   *  
+   *
    * The statistic records come from the mutation.getTestDescription() string.
-   * 
+   *
    * A typical mutation.getTestDescription() string for a PASS test is like:
    * example.Mover:move(Ljava/lang/String;I)V:8:example.MoverTest/testLeft/1/0.416045;example.MoverTest/testRight/0/0.126273;example.MoverTestP3/testPrettyString/1/0.155607;example.MoverTest/testDown/1/0.11028;example.MoverTest/testUp/1/0.074451;
-   * 
+   *
    * A typical mutation.getTestDescription() string for a FAIL test is like:
    * example.Mover:31: - -> +:example.Mover:move(Ljava/lang/String;I)V:6:example.MoverTest/testLeft/1/0.421073;example.MoverTest/testRight/1/0.114819;example.MoverTestP3/testPrettyString/1/0.154279;example.MoverTest/testDown/1/0.109441;example.MoverTest/testUp/1/0.083111;
-   * 
+   *
    * The elements in mutation.getTestDescription() string are separated by ":". A standard PASS test
-   * description should start with the class name that has been mutated, followed by the method name,  
-   * and then line number, and a string of the passed test class name with methods and their run time 
-   * (this string again is separated by "/").  
-   * 
-   * The only difference between a PASS test description and a FAIL test description is that the FAIL 
+   * description should start with the class name that has been mutated, followed by the method name,
+   * and then line number, and a string of the passed test class name with methods and their run time
+   * (this string again is separated by "/").
+   *
+   * The only difference between a PASS test description and a FAIL test description is that the FAIL
    * test description has three extra elements after the class name and before the string of test
-   * method names and times. These extra elements are lineNumber, modification, and className. 
-   * 
+   * method names and times. These extra elements are lineNumber, modification, and className.
+   *
    * StringTokenizer is used to extract each of the elements and the elements are used as attributes
-   * to construct the MutationKey and TestStatistic respectively. 
-   * 
+   * to construct the MutationKey and TestStatistic respectively.
+   *
    * @param mutation
    */
   private void updateStats(MutationResult mutation) {
-    if (mutation.getTestDescription() != null 
+    if (mutation.getTestDescription() != null
         && mutation.getTestDescription().startsWith("No mutation made")) {
       return;
     }
@@ -560,8 +560,8 @@ public class FastRunner {
     }
 
     String[] testMethods = testMethodName.split(";");
-    for (int i = 0; i < testMethods.length; i++) {
-      StringTokenizer ts = new StringTokenizer(testMethods[i], "/");
+    for (String testMethod : testMethods) {
+      StringTokenizer ts = new StringTokenizer(testMethod, "/");
       String testClassName = ts.nextToken();
       String testName = testClassName + "." + ts.nextToken();
       int status = Integer.valueOf(ts.nextToken());
@@ -586,7 +586,7 @@ public class FastRunner {
 
   /**
    * Writes the statistic results into file.
-   *  
+   *
    * @param cName   statistic file name
    * @return
    */
@@ -685,7 +685,7 @@ public class FastRunner {
    * Writes the statistic results into file as a binary matrix.
    * 1  passed
    * 0  failed
-   * 
+   *
    * @param cName   statistic file name
    */
   private void writeToBinaryMatrix(String cName) {
@@ -697,7 +697,6 @@ public class FastRunner {
       List<String> orderedTests = new ArrayList<String>();
       Map<String, Integer> colCountMap = new HashMap<String, Integer>();
       List<List<Integer>> matrix = new ArrayList<List<Integer>>();
-      int testCount = 0;
 
       // Following lines are the results of all the mutations
       for (String className : mClassMutMap.keySet()) {
@@ -705,21 +704,17 @@ public class FastRunner {
 
         for (String mut : muts) {
           orderedMuts.add(mut);
-
           if (!isDetect(mut, className)) {
             orderedMuts.remove(mut);
             continue;
           }
-
           List<Integer> passFailStatus = new ArrayList<Integer>();
-
           int rowCount = 0;
           for (String tClass : mTestMap.keySet()) {
             List<String> tests = mTestMap.get(tClass);
             for (String test : tests) {
               if (!orderedTests.contains(test)) {
                 orderedTests.add(test);
-                testCount++;
               }
 
               /*
@@ -728,7 +723,6 @@ public class FastRunner {
                * test status : PASS | FAIL | TIMEOUT; and the test run time.
                */
               MutationKey key = new MutationKey(className, tClass, test, mut);
-
               boolean isFound = false;
               for (MutationKey mutKey : mStats.keySet()) {
                 if (mutKey.equals(key)) {
@@ -756,25 +750,19 @@ public class FastRunner {
                       testTimeMap.put(test, totalTime);
                     }
                   }
-
                   isFound = true;
                   break;
                 }
               }
-
               if (colCountMap.get(test) == null) {
                 colCountMap.put(test, 0);
               }
-
-              /*
-               * If no stat record is found, the test is not run.
-               */
-               if (!isFound) {
-                 passFailStatus.add(0);
-               }
+              // If no stat record is found, the test is not run.
+              if (!isFound) {
+                passFailStatus.add(0);
+              }
             }
           }
-
           passFailStatus.add(rowCount);
           matrix.add(passFailStatus);
         }
@@ -844,7 +832,7 @@ public class FastRunner {
     return removedTests;
   }
 
-  private void writeExtraFiles(String cName, Writer o, 
+  private void writeExtraFiles(String cName, Writer o,
       Map<String, Double> testTimeMap, List<String> orderedMuts, List<String> orderedTests,
       List<Integer> removedTestsIndex, Map<String, Integer> colCountMap) throws IOException {
 
@@ -1011,7 +999,7 @@ public class FastRunner {
     if (mVerbose) {
       args.add("--" + FastJumbler.FLAG_VERBOSE);
     }
-    // record statistic 
+    // record statistic
     if (mRecStat) {
       args.add("--" + FastJumbler.FLAG_REC_STAT);
     }
@@ -1075,6 +1063,9 @@ public class FastRunner {
   private void startChildProcess(List<String> args) throws IOException, InterruptedException {
     JavaRunner runner = getJavaRunner();
     runner.setArguments(args);
+    if (mVerbose) {
+      System.err.println("CHILD JVM with args: " + runner.toString());
+    }
     mChildProcess = runner.start();
     mIot = new IOThread(mChildProcess.getInputStream());
     mIot.setDaemon(true);
@@ -1143,7 +1134,6 @@ public class FastRunner {
     ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(jumbler);
     try {
-
       mMutationCount = countMutationPoints(jumbler, mClassName);
       if (mMutationCount == -1) {
         return new InterfaceResult(mClassName);
@@ -1202,8 +1192,6 @@ public class FastRunner {
         }
         return new BrokenTestsTestResult(mClassName, testClassNames, mMutationCount);
       }
-
-
     } catch (RuntimeException e) {
       throw e;
     } catch (Exception e) {
@@ -1213,7 +1201,6 @@ public class FastRunner {
     } finally {
       Thread.currentThread().setContextClassLoader(oldLoader);
     }
-
     return null;
   }
 
@@ -1314,7 +1301,6 @@ public class FastRunner {
     if (mRecStat) {
       initStats();
     }
-
     listener.jumbleRunStarted(mClassName, testClassNames);
 
     JumbleResult initialResult = runInitialTests(testClassNames);

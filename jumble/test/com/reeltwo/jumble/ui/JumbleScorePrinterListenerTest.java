@@ -13,16 +13,21 @@ import com.reeltwo.jumble.fast.MutationResult;
 
 /**
  * Tests the corresponding class.
- * 
+ *
  * @author Tin Pavlinic
  * @version $Revision 1.0 $
  */
 public class JumbleScorePrinterListenerTest extends TestCase {
   private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+  /** Override this to test a different listener class. */
+  protected JumbleListener getListener(PrintStream ps) {
+    return new JumbleScorePrinterListener(ps);
+  }
+
   public void testLineWrapping() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    JumbleScorePrinterListener listener = new JumbleScorePrinterListener(new PrintStream(baos));
+    JumbleListener listener = getListener(new PrintStream(baos));
     StringBuffer expected = new StringBuffer();
 
     for (int i = 0; i < 50; i++) {
@@ -34,13 +39,24 @@ public class JumbleScorePrinterListenerTest extends TestCase {
       expected.append("T");
       listener.finishedMutation(new MutationResult(MutationResult.TIMEOUT, "dummyClass", i + 50, "dummy description"));
     }
+    String cName = "a.b.c.Class";
+    int lineNum = 123;
+    String mDesc = "+ -> -";
+    String mutDesc = cName + ":" + lineNum + ": " + mDesc; // this is what readMutation gets from the INIT: line.
+    expected.append(expectedFailureMessage(cName, lineNum, mDesc));
+    expected.append(LINE_SEPARATOR);
+    listener.finishedMutation(new MutationResult(MutationResult.FAIL, cName, 75, mutDesc));
+    assertEquals(expected.toString(), baos.toString());
+  }
 
-    assertEquals(baos.toString(), expected.toString());
+  /** Subclass can override this if they use a different format of fail messages. */
+  protected String expectedFailureMessage(String cName, int lineNum, String mDesc) {
+    return "M FAIL: " + cName + ":" + lineNum + ": " + mDesc;
   }
 
   public void testInterfaces() {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    JumbleScorePrinterListener printerListener = new JumbleScorePrinterListener(new PrintStream(byteArrayOutputStream));
+    JumbleListener printerListener = getListener(new PrintStream(byteArrayOutputStream));
 
     printerListener.performedInitialTest(new InterfaceResult("Dummy"), 0);
     StringTokenizer stringTokenizer = new StringTokenizer(byteArrayOutputStream.toString(), LINE_SEPARATOR);
