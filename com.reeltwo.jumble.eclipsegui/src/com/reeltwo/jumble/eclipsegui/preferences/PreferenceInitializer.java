@@ -7,6 +7,8 @@ import com.reeltwo.jumble.eclipsegui.Activator;
 
 /**
  * Class used to initialize default preference values.
+ * 
+ * @author Tin Pavlinic
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
   @Override

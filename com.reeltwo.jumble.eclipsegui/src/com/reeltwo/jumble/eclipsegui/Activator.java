@@ -35,6 +35,7 @@ public class Activator extends AbstractUIPlugin {
    */
   public void start(BundleContext context) throws Exception {
     super.start(context);
+    System.out.println("Activator.start " + PLUGIN_ID);
     plugin = this;
   }
 
@@ -47,6 +48,7 @@ public class Activator extends AbstractUIPlugin {
    */
   public void stop(BundleContext context) throws Exception {
     plugin = null;
+    System.out.println("Activator.stop " + PLUGIN_ID);
     super.stop(context);
   }
 

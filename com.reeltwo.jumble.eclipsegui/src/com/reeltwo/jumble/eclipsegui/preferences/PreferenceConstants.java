@@ -2,6 +2,8 @@ package com.reeltwo.jumble.eclipsegui.preferences;
 
 /**
  * Constant definitions for plug-in preferences
+ * 
+ * @author Tin Pavlinic
  */
 public class PreferenceConstants {
   public static final String P_ARGS = "args";
@@ -20,5 +22,5 @@ public class PreferenceConstants {
   
   public static final String P_SWITCH = "switch";
   
-  public static final String P_STORES = "stroes";
+  public static final String P_STORES = "stores";
 }

@@ -11,7 +11,7 @@
       <command
             categoryId="com.reeltwo.jumble.eclipsegui.commands.category"
             id="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
-            name="Jumble a Class">
+            name="Analyze tests of this class">
       </command>
    </extension>
    <extension
@@ -22,45 +22,12 @@
       </handler>
    </extension>
    <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
-            contextId="org.eclipse.ui.contexts.window"
-            sequence="M1+6"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
-   </extension>
-   <extension
          id="com.reeltwo.jumble"
          name="Jumble"
          point="org.eclipse.ui.menus">
       <menuContribution
-            allPopups="true"
-            locationURI="menu:file?after=additions">
-         <menu
-               id="jumbleMenu"
-               label="Jumble Mutation Tester">
-            <command
-                  commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            allPopups="true"
+            allPopups="false"
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
-         <menu
-               id="jumbleMenu"
-               label="Jumble Mutation Tester">
-            <command
-                  commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            allPopups="true"
-            locationURI="popup:org.eclipse.jdt.ui.CompilationUnitEditor.EditorContext?after=additions">
          <menu
                id="jumbleMenu"
                label="Jumble Mutation Tester"
@@ -70,6 +37,16 @@
                   style="push"
                   tooltip="Perform a mutation analysis of this class to measure the effectiveness of its tests.">
             </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.CompilationUnitEditor.EditorContext?after=additions">
+         <menu
+               commandId="com.reeltwo.jumble.eclipsegui.commands.jumbleClass"
+               id="jumbleMenu"
+               label="Jumble Mutation Tester"
+               tooltip="Perform a mutation analysis of this class to measure the effectiveness of its tests.">
          </menu>
       </menuContribution>
    </extension>

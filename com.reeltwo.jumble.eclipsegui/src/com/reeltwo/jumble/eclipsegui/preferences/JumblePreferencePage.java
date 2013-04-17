@@ -19,6 +19,8 @@ import com.reeltwo.jumble.eclipsegui.Activator;
  * This page is used to modify preferences only. They are stored in the
  * preference store that belongs to the main plug-in class. That way,
  * preferences can be accessed directly via the preference store.
+ * 
+ * @author Tin Pavlinic
  */
 
 public class JumblePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
