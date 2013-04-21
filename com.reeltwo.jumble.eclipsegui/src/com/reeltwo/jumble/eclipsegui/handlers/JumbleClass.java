@@ -2,6 +2,8 @@ package com.reeltwo.jumble.eclipsegui.handlers;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -166,9 +168,7 @@ public class JumbleClass extends AbstractHandler {
     final String pluginLocation;
     try {
       pluginLocation = Activator.getDefault().getPluginFolder().getAbsolutePath();
-      if (mOut != null) {
-        mOut.println("Starting Jumble with plugin folder " + pluginLocation);
-      }
+      mOut.println("Starting Jumble with plugin folder " + pluginLocation);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -207,8 +207,7 @@ public class JumbleClass extends AbstractHandler {
       IRuntimeClasspathEntry jumbleJarEntry = JavaRuntime.newArchiveRuntimeClasspathEntry(jumbleJarPath);
       String jar = jumbleJarEntry.getMemento();
       workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH, Collections.singletonList(jar));
-      String classPath = getClasspath(cu.getJavaProject());
-      mOut.println("--classpath=" + classPath);
+      final String classPath = getClasspathString(cu.getJavaProject());
 
       boolean verbose = prefs.getBoolean(PreferenceConstants.P_VERBOSE);
       boolean returnVals = prefs.getBoolean(PreferenceConstants.P_RETURNS);
@@ -221,7 +220,7 @@ public class JumbleClass extends AbstractHandler {
       workingCopy.setAttribute(
           IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
           "com.reeltwo.jumble.Jumble");
-      String args = "-p com.reeltwo.jumble.ui.EclipseFormatListener " // so we get clickable links.
+      String args0 = "-p com.reeltwo.jumble.ui.EclipseFormatListener " // so we get clickable links.
           + (returnVals ? "-r " : "")
           + (inlineConstants ? "-k " : "")
           + (increments ? "-i " : "")
@@ -229,52 +228,81 @@ public class JumbleClass extends AbstractHandler {
           + (constantPoolConstants ? "-w " : "")
           + (stringConstants ? "-S " : "")
           + (switchStatements ? "-j " : "")
-          + (mutateAssignments ? "-X " : "")
-          + "--classpath \"" + classPath + "\" " + " "
-          + extraArgs + " "
-          + className;
+          + (mutateAssignments ? "-X " : "");
+      String args1 = "--classpath \"" + classPath + "\" ";
+      String args2 = extraArgs + " " + className;
+      String argsSummary = args0 + "--classpath ... " + args2;
+      String argsReal = args0 + args1 + args2;
       workingCopy.setAttribute(
           IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-          args);
+          argsReal);
+      mOut.println("classpath.length=" + classPath.length() + " args.length=" + argsReal.length());
+      mOut.println("--classpath=" + classPath);
+      mOut.println("Launching... with args: " + argsSummary);
 
       // Now run...
       ILaunchConfiguration configuration = workingCopy.doSave();
-      mOut.println("Launching... with args: " + args);
       DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
       mOut.println("Done launch.");
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception ex) {
+      mOut.println(ex.getLocalizedMessage());
+      StackTraceElement[] trace = ex.getStackTrace();
+      for (StackTraceElement elem : trace) {
+        mOut.println(elem.toString());
+      }
     }
   }
 
-  private String getClasspath(IJavaProject curProject)
+  /**
+   * Constructs the classpath for the given project, removing all duplicates.
+   * Only the first occurrence of each path is retained.
+   *
+   * @param curProject
+   * @return A system-dependent classpath.
+   * @throws JavaModelException
+   */
+  String getClasspathString(IJavaProject curProject) throws JavaModelException {
+    Set<String> paths = new LinkedHashSet<>(100); // must preserve the order.
+    buildClasspath(curProject.getJavaProject(), paths);
+
+    // now concatenate all the paths, in their original order.
+    StringBuilder sb = new StringBuilder();
+    String sep = "";
+    for (String cp : paths) {
+      sb.append(sep);
+      sep = PATH_SEPARATOR;
+      sb.append(cp);
+    }
+    return sb.toString();
+  }
+
+  private void buildClasspath(IJavaProject curProject, Set<String> paths)
       throws JavaModelException {
     IClasspathEntry[] entries = curProject.getResolvedClasspath(true);
-    StringBuilder cpBuilder = new StringBuilder();
     IWorkspaceRoot root = curProject.getProject().getWorkspace().getRoot();
-    IPath outputLocation = root.findMember(curProject.getOutputLocation()).getLocation();
     for (IClasspathEntry entry : entries) {
       IPath path = entry.getPath();
       IResource res = root.findMember(path);
-      final String curPath;
       if (res == null) {
-        curPath = path.toOSString();
+        paths.add(path.toOSString());
       } else {
         if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-          curPath = outputLocation.toOSString();
+          IPath outputLocn = curProject.getOutputLocation();
+          IResource resource = root.findMember(outputLocn);
+          if (resource == null) {
+            mOut.println("WARNING: cannot find source code location for fragment: "
+                + entry + " outputLocn="+ outputLocn);
+          } else {
+            IPath outputLocation = resource.getLocation();
+            paths.add(outputLocation.toOSString());
+          }
         } else if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
-          curPath = getClasspath(JavaCore.create((IProject) res));
+          buildClasspath(JavaCore.create((IProject) res), paths);
         } else {
-          curPath = res.getLocation().toOSString();
+          paths.add(res.getLocation().toOSString());
         }
       }
-      if (cpBuilder.length() == 0) {
-        cpBuilder.append(curPath);
-      } else {
-        cpBuilder.append(PATH_SEPARATOR + curPath);
-      }
     }
-    return cpBuilder.toString();
   }
 
   /**
