@@ -1,4 +1,5 @@
 package example;
+
 /** An example class to illustrate Jumble coverage. */
 public class Mover
 {
