@@ -18,7 +18,7 @@ This tells you how thoroughly your unit tests test the class.
 
 Jumble was developed in 2003-2006 by a commercial company in New
 Zealand, ReelTwo (www.reeltwo.com), and is now available as open
-source under the GPL licence.  Jumble has been designed to operate in
+source under the Apache licence.  Jumble has been designed to operate in
 an industrial setting with large projects.  Heuristics have been
 included to speed the checking of mutations, for example, noting which
 test fails for each mutation and running this first in subsequent

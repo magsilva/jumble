@@ -18,10 +18,6 @@ Contents
 ========
 This distribution contains these subdirectories:
 
-* jumble
-      Source code for Jumble.  Go here to build jumble.jar, 
-      which contains the command line interface for Jumble.
-
 * jumble-annotations
       This defines a Java 1.5+ annotation (@TestClass), which
       can be used to specify the connection between your main
@@ -29,8 +25,21 @@ This distribution contains these subdirectories:
       is optional, but is useful for allowing the Eclipse plugin
       to support more flexible naming conventions for unit test files.
 
-* eclipseplugin
-      A simple plugin for running Jumble within Eclipse.
+      If you do use it within your own projects, you will need to add
+      jumble-annotations.jar to the classpath of those projects.
+      This is why these two annotations classes are provided as a 
+      separate .jar file, to make it easy to add them to other
+      projects with very low space overhead (less than 2Kb).
+
+* jumble
+      Source code for Jumble.  Go here to build jumble.jar, 
+      which contains the command line interface for Jumble.
+
+* com.reeltwo.jumble.eclipsegui
+* com.reeltwo.jumble.feature
+* com.reeltwo.jumble.update-site
+      A simple plugin (and its update-site) for running Jumble within Eclipse.
+      This must be built from within Eclipse.
 
 * antplugin
       An ant plug for running Jumble in ant. It can run jumble on classes 
@@ -44,11 +53,9 @@ Make sure you build them in the order shown above.
 Source Code
 ===========
 If this distribution does not contain the Java source code,
-you can obtain it from the Sourceforge SVN repository like this:
+you can obtain it from the Sourceforge SVN repository.
+Eg. for the latest development version of Jumble:
 
-  svn co https://jumble.svn.sourceforge.net/svnroot/jumble/tags/release_1_1_0 jumble1.1.0
-
-Or for the latest development version of Jumble, like this:
   svn co https://jumble.svn.sourceforge.net/svnroot/jumble/trunk trunk
 
 
