@@ -14,10 +14,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 import com.reeltwo.jumble.mutation.Mutater;
 import com.reeltwo.jumble.mutation.MutatingClassLoader;
 import com.reeltwo.jumble.ui.JumbleListener;
@@ -92,7 +95,7 @@ public class FastRunner {
 
   // State during run
 
-  /** The class being tested */
+  /** The class being tested. */
   private String mClassName;
 
   private File mCacheFile;
@@ -111,16 +114,16 @@ public class FastRunner {
 
   private long mTotalRuntime;
 
-  /** The variable storing the failed tests - can get pretty big */
+  /** The variable storing the failed tests - can get pretty big. */
   FailedTestMap mCache = null;
 
-  /** {@link MutationKey} maps to each {@link TestStatistic} of this mutation */
+  /** {@link MutationKey} maps to each {@link TestStatistic} of this mutation. */
   Map<MutationKey, TestStatistic> mStats = null;
 
-  /** ClassName maps to a list of Mutations in this class */
+  /** ClassName maps to a list of Mutations (their description strings) in this class. */
   Map<String, List<String>> mClassMutMap = null;
 
-  /** TestClassName maps to a list of TestMethods in this test class */
+  /** TestClassName maps to a list of TestMethods in this test class. */
   Map<String, List<String>> mTestMap = null;
 
   public FastRunner() {
@@ -492,15 +495,19 @@ public class FastRunner {
     }
   }
 
-  private void initStats() {
+  private void initStats(List<String> testClassNames) {
     mStats = new HashMap<MutationKey, TestStatistic>();
-    mClassMutMap = new HashMap<String, List<String>>();
-    mTestMap = new HashMap<String, List<String>>();
+    mClassMutMap = new LinkedHashMap<String, List<String>>();
+    mTestMap = new LinkedHashMap<String, List<String>>();
+    // add all the test class names, so they will appear in the correct (input) order.
+    for (String name : testClassNames) {
+      mTestMap.put(name, new ArrayList<String>());
+    }
   }
 
   /*
-   * When each mutation result is read from the child process, the corresponding statistic records
-   * get updated accordingly and is put into the mStats map.
+   * When each mutation result is read from the child process, the corresponding statistics record
+   * gets updated accordingly and is put into the mStats map.
    *
    * The statistic records come from the mutation.getTestDescription() string.
    *
@@ -513,7 +520,9 @@ public class FastRunner {
    * The elements in mutation.getTestDescription() string are separated by ":". A standard PASS test
    * description should start with the class name that has been mutated, followed by the method name,
    * and then line number, and a string of the passed test class name with methods and their run time
-   * (this string again is separated by "/").
+   * (this string again is separated by "/", and has the format "testClass/testMethod/passFail/time",
+   * where passFail=0 for a passing test that did not detect the mutation, or 1 for a failing test,
+   * which did detect the mutation).
    *
    * The only difference between a PASS test description and a FAIL test description is that the FAIL
    * test description has three extra elements after the class name and before the string of test
@@ -533,7 +542,7 @@ public class FastRunner {
     if (mutation.getDescription().startsWith("No mutation made")) {
       return;
     }
-
+    // System.out.println("DEBUG: updateStats(" + mutation + ") test=" + mutation.getTestDescription());
     StringTokenizer tokens = new StringTokenizer(mutation.getTestDescription(), ":");
     String clazzName = tokens.nextToken();
     assert clazzName.equals(mutation.getClassName());
@@ -550,14 +559,12 @@ public class FastRunner {
     String testMethodName = tokens.nextToken();
     String modification = mutation.getDescription();
 
-
-    if (mClassMutMap.get(clazzName) == null) {
-      mClassMutMap.put(clazzName, Collections.singletonList(modification));
-    } else {
-      List<String> mods = new ArrayList<String>(mClassMutMap.get(clazzName));
-      mods.add(modification);
+    List<String> mods = mClassMutMap.get(clazzName);
+    if (mods == null) {
+      mods = new ArrayList<String>();
       mClassMutMap.put(clazzName, mods);
     }
+    mods.add(modification);
 
     String[] testMethods = testMethodName.split(";");
     for (String testMethod : testMethods) {
@@ -566,28 +573,27 @@ public class FastRunner {
       String testName = testClassName + "." + ts.nextToken();
       int status = Integer.valueOf(ts.nextToken());
       String testTime = ts.nextToken();
-
       MutationKey mutationKey = new MutationKey(
           clazzName, testClassName, testName, modification);
       TestStatistic testStatistic = new TestStatistic(status, testTime);
       mStats.put(mutationKey, testStatistic);
 
-      if (mTestMap.get(testClassName) == null) {
-        mTestMap.put(testClassName, Collections.singletonList(testName));
-      } else {
-        List<String> tMethods = new ArrayList<String>(mTestMap.get(testClassName));
-        if (!tMethods.contains(testName)) {
-          tMethods.add(testName);
-          mTestMap.put(testClassName, tMethods);
-        }
+      List<String> tMethods = mTestMap.get(testClassName);
+      if (tMethods == null) {
+    	tMethods = new ArrayList<String>();
+        mTestMap.put(testClassName, tMethods);
+      }
+      if (!tMethods.contains(testName)) {
+        tMethods.add(testName);
       }
     }
   }
 
   /**
-   * Writes the statistic results into file.
+   * Writes the statistic results into a file for the class being tested.
+   * See the example output files in the test/com.reeltwo.jumble.fast.expected_stats folder.
    *
-   * @param cName   statistic file name
+   * @param cName   statistics file name (usually the qualified class name).
    * @return
    */
   private boolean writeStats(String cName) {
@@ -609,9 +615,11 @@ public class FastRunner {
       // Second line - test method name
       o.append("\t");
       o.append("\t");
-      for (List<String> tMethods : mTestMap.values()) {
-        // Output test methods in each test class
-        for (String method : tMethods) {
+      for (Entry<String, List<String>> tMethods : mTestMap.entrySet()) {
+    	// sort each list of method names so that we get a consistent output order.
+    	Collections.sort(tMethods.getValue());
+        // Output test methods names (sorted) in each test class
+        for (String method : tMethods.getValue()) {
           o.append(method + "\t");
         }
       }
@@ -623,6 +631,9 @@ public class FastRunner {
         o.append(className + "\t");
         boolean isFirst = true;
         List<String> muts = mClassMutMap.get(className);
+        // TODO: make sure that this 'muts' list will be in a consistent order from run to run.
+        //      (this depends on the mutator order?)
+        //      If not, then sort the list before iterating through it.
         for (String mut : muts) {
           if (!isFirst) {
             // Not the first mutation line of the same mutated class,
@@ -643,29 +654,18 @@ public class FastRunner {
                */
               MutationKey key = new MutationKey(className, tClass, test, mut);
 
-              boolean isFound = false;
-              for (MutationKey mutKey : mStats.keySet()) {
-                if (mutKey.equals(key)) {
-                  TestStatistic stat = mStats.get(mutKey);
-                  if (MutationResult.PASS == stat.getStatus()) {
-                    o.append("P/" + stat.getTime() + "s\t");
-                  } else if (MutationResult.FAIL == stat.getStatus()) {
-                    o.append("F/" + stat.getTime() + "s\t");
-                  } else if (MutationResult.TIMEOUT == stat.getStatus()) {
-                    o.append("T" + "\t");
-                  } else {
-                    o.append("--" + "\t");
-                  }
-                  isFound = true;
-                  break;
-                }
-              }
-
-              /*
-               * If no stat record is found, the test is not run.
-               */
-              if (!isFound) {
+              TestStatistic stat = mStats.get(key);
+              if (stat == null) {
+                // If no stat record is found, the test is not run.
                 o.append("--" + "\t");
+              } else if (MutationResult.PASS == stat.getStatus()) {
+                o.append("P/" + stat.getTime() + "s\t");
+              } else if (MutationResult.FAIL == stat.getStatus()) {
+                o.append("F/" + stat.getTime() + "s\t");
+              } else if (MutationResult.TIMEOUT == stat.getStatus()) {
+                o.append("T" + "\t");
+              } else {
+                o.append("--" + "\t"); // could throw exception here?
               }
             }
           }
@@ -683,8 +683,10 @@ public class FastRunner {
 
   /*
    * Writes the statistic results into file as a binary matrix.
-   * 1  passed
-   * 0  failed
+   * See com.reeltwo.jumble.fast.expected_stats directory for examples.
+   *
+   * 1  the test detected the mutation (ie. the test failed).
+   * 0  the test did not detect the mutation (the test passed, or timed out???).
    *
    * @param cName   statistic file name
    */
@@ -727,8 +729,9 @@ public class FastRunner {
               for (MutationKey mutKey : mStats.keySet()) {
                 if (mutKey.equals(key)) {
                   TestStatistic stat = mStats.get(mutKey);
+//              if (stat != null) {
                   if (MutationResult.PASS == stat.getStatus()) {
-                    passFailStatus.add(1);
+                    passFailStatus.add(1);  // output PASS (0) as a 1, for RAISE.
                     rowCount++;
 
                     if (colCountMap.get(test) == null) {
@@ -737,9 +740,8 @@ public class FastRunner {
                       Integer totalColCount = colCountMap.get(test) + 1;
                       colCountMap.put(test, totalColCount);
                     }
-
                   }  else {
-                    passFailStatus.add(0);
+                    passFailStatus.add(0);  // 0 means the test failed to detect the mutation or timed out.
                   }
 
                   if (MutationResult.PASS == stat.getStatus() || MutationResult.FAIL == stat.getStatus()) {
@@ -800,6 +802,19 @@ public class FastRunner {
   }
 
 
+  /**
+   * Writes out the binary matrix file (in RAISE test coverage format).
+   * The rows correspond to mutations, and the columns correspond to test methods.
+   * Each entry is a 1 if the test detected the mutation, or 0 otherwise.
+   *
+   * This skips any columns (tests) that contain all zeroes.
+   *
+   * @param cName the name of the class being mutated.
+   * @param o where to write the matrix.
+   * @param row a list of lists (mutation number is the outer index) of one and zero results.
+   * @return the column numbers that contain all zeroes.
+   * @throws IOException
+   */
   private List<Integer> writeMatrixFile(String cName, Writer o, List<List<Integer>> row) throws IOException {
     List<Integer> removedTests = new ArrayList<Integer>();
 
@@ -1299,7 +1314,7 @@ public class FastRunner {
     }
 
     if (mRecStat) {
-      initStats();
+      initStats(testClassNames);
     }
     listener.jumbleRunStarted(mClassName, testClassNames);
 

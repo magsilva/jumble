@@ -1,0 +1,14 @@
+		experiments.JumblerExperimentTest		experiments.JumblerExperimentSecondTest	junit.framework.TestSuite$1	
+		experiments.JumblerExperimentTest.testAdd	experiments.JumblerExperimentTest.testMultiply	experiments.JumblerExperimentSecondTest.testAdd	junit.framework.TestSuite$1.warning	
+experiments.JumblerExperiment	experiments.JumblerExperiment:21: negated conditional	P/0.0s	F/0.0s	P/0.0s	--	
+	experiments.JumblerExperiment:22: + -> -	P/0.0s	F/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:22: changed return value (ireturn)	--	--	P/0.0s	P/0.0s	
+	experiments.JumblerExperiment:25: - -> +	F/0.0s	F/0.0s	P/0.0s	--	
+	experiments.JumblerExperiment:25: changed return value (ireturn)	--	--	P/0.0s	P/0.0s	
+	experiments.JumblerExperiment:38: 0 -> 1	F/0.0s	F/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:39: 0 -> 1	F/0.0s	P/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:40: 0 -> 1	F/0.0s	P/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:42: += -> -=	F/0.0s	F/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:43: + -> -	F/0.0s	P/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:41: negated conditional	F/0.0s	P/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:47: changed return value (ireturn)	--	--	P/0.0s	P/0.0s	

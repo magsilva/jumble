@@ -17,6 +17,13 @@ public class TestStatistic {
     this.mTime = time;
   }
 
+  /**
+   * Whether or not this test detected the mutation.
+   * 
+   * @return PASS (=0) means this test did detect the mutation.  Good!
+   *         FAIL (=1) means the test passed, so did not detect the mutation.
+   *         TIMEOUT (=2) means the test timed out.
+   */
   public int getStatus() {
     return mStatus;
   }

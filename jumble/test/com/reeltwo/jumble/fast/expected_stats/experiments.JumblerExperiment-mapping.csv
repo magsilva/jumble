@@ -1,0 +1,19 @@
+Tests mapping: 
+1	experiments.JumblerExperimentTest.testAdd
+2	experiments.JumblerExperimentTest.testMultiply
+3	experiments.JumblerExperimentSecondTest.testAdd
+4	junit.framework.TestSuite$1.warning
+
+Tests cover zero mutations:
+
+Mutations mapping: 
+r1	experiments.JumblerExperiment:21: negated conditional
+r2	experiments.JumblerExperiment:22: + -> -
+r3	experiments.JumblerExperiment:22: changed return value (ireturn)
+r4	experiments.JumblerExperiment:25: - -> +
+r5	experiments.JumblerExperiment:25: changed return value (ireturn)
+r6	experiments.JumblerExperiment:39: 0 -> 1
+r7	experiments.JumblerExperiment:40: 0 -> 1
+r8	experiments.JumblerExperiment:43: + -> -
+r9	experiments.JumblerExperiment:41: negated conditional
+r10	experiments.JumblerExperiment:47: changed return value (ireturn)
