@@ -1,0 +1,14 @@
+Tests mapping: 
+1	junit.framework.JUnit4TestAdapter.example.MoverTest
+
+Tests cover zero mutations:
+
+Mutations mapping: 
+r1	example.Mover:20: negated conditional
+r2	example.Mover:21: - -> +
+r3	example.Mover:23: negated conditional
+r4	example.Mover:24: + -> -
+r5	example.Mover:26: negated conditional
+r6	example.Mover:27: / -> *
+r7	example.Mover:29: negated conditional
+r8	example.Mover:30: / -> *
