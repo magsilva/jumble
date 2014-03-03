@@ -101,6 +101,23 @@
     </checkstyle>
   </target>
 
+  <!-- findbugs -->
+  <property name="findbugs.home" location="${lib.dir}/findbugs" /> <!-- Override this to run a different version of findbugs -->
+  <property name="findbugs.loc" value="" /> <!-- Override this to run findbugs just on a subdirectory -->
+  <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties" classpath="${findbugs.home}/lib/findbugs-ant.jar" />
+  <target name="findbugs" depends="compile,compile-tests" description="Run findbugs">
+    <findbugs home="${findbugs.home}" output="xml" outputFile="${report.build.dir}/findbugs-report.xml" excludeFilter=".cvscheck/findbugs_config.xml" effort="max" reportLevel="low" jvmargs="-Xmx1000M">
+      <auxClasspath>
+        <fileset dir="${lib.dir}" includes="*.jar" />
+      </auxClasspath>
+      <sourcePath path="${src.dir}" />
+      <sourcePath path="${test.dir}" />
+      <class location="${src.build.dir}/${findbugs.loc}" />
+      <class location="${test.build.dir}/${findbugs.loc}" />
+      <systemProperty name="classContext.modelInstanceof" value="true" />
+    </findbugs>
+  </target>
+
   <!-- javadocs -->
   <target name="javadoc" depends="compile" description="Build javadocs">
     <javadoc sourcepath="${src.dir}" destdir="${build.dir}/javadocs" source="1.7"
