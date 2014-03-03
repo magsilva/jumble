@@ -90,6 +90,28 @@
     </junit>
   </target>
 
+  <!-- checkstyle -->
+  <taskdef resource="checkstyletask.properties" classpath="${lib.dir}/checkstyle-5.7-all.jar" />
+  <target name="checkstyle" depends="compile" description="Run checkstyle on all source code.">
+    <checkstyle config=".cvscheck/checkstyle_config.xml" failOnViolation="false" classpathref="classpath">
+      <fileset dir="src" includes="**/*.java" />
+      <fileset dir="test" includes="**/*.java" />
+      <formatter type="plain" />
+      <formatter type="xml" toFile="${report.build.dir}/checkstyle-result.xml" />
+    </checkstyle>
+  </target>
+
+  <!-- javadocs -->
+  <target name="javadoc" depends="compile" description="Build javadocs">
+    <javadoc sourcepath="${src.dir}" destdir="${build.dir}/javadocs" source="1.7"
+             Author="true" Version="true" Package="true" 
+             useexternalfile="true" additionalparam="-quiet" docfilessubdirs="true">
+        <classpath>
+	  <path refid="classpath" />
+        </classpath>
+    </javadoc>
+  </target>
+
   <!-- Build jar file containing utility code from the Reel Two
        internal source tree. Can only be run by someone at Reel
        Two.

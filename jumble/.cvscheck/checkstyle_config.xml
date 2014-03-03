@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<!--
+
+  Checkstyle configuration that checks the sun coding conventions from:
+
+    - the Java Language Specification at
+      http://java.sun.com/docs/books/jls/second_edition/html/index.html
+
+    - the Sun Code Conventions at http://java.sun.com/docs/codeconv/
+
+    - the Javadoc guidelines at
+      http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+
+    - the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
+
+    - some best practices
+
+  Checkstyle is very configurable. Be sure to read the documentation at
+  http://checkstyle.sf.net (or in your downloaded distribution).
+
+  Most Checks are configurable, be sure to consult the documentation.
+
+  To completely disable a check, just comment it out or delete it from the file.
+
+  Finally, it is worth reading the documentation.
+
+-->
+
+<module name="Checker">
+
+    <!-- Checks that a package.html file exists for each package.     -->
+    <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
+<!-- Reel Two NOPE   <module name="PackageHtml"/> -->
+
+    <!-- Checks whether files end with a new line.                        -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!-- Checks that property files contain the same keys.         -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+    <module name="Translation"/>
+
+
+    <module name="TreeWalker">
+
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+<!-- Reel Two CUST        <module name="JavadocMethod"/> -->
+<!--- temp off        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+            <property name="allowUndeclaredRTE" value="true"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowThrowsTagsForSubclasses" value="false"/>
+        </module> -->
+<!-- Reel Two LATER       <module name="JavadocType"/> -->
+        <module name="JavadocType">
+            <property name="scope" value="public"/>
+            <property name="authorFormat" value="\S"/>
+            <property name="versionFormat" value="\$Revision.*\$"/>
+        </module>
+<!-- Reel Two LATER       <module name="JavadocVariable"/> -->
+<!-- Reel Two LATER       <module name="JavadocStyle"/> -->
+
+
+        <!-- Checks for Naming Conventions.                  -->
+        <!-- See http://checkstyle.sf.net/config_naming.html -->
+<!-- Reel Two CUST       <module name="ConstantName"/> -->
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z](_?[A-Z0-9]+)*$"/>
+        </module>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+<!-- Reel Two CUST        <module name="MemberName"/> -->
+        <module name="MemberName">
+            <property name="format" value="^m[A-Z](_?[a-zA-Z0-9]+)*$"/>
+        </module>
+<!-- Reel Two CUST        <module name="MethodName"/>  allow optional native_ as prefix for JNI methods-->
+        <module name="MethodName">
+            <property name="format" value="^(native_)?[a-z][a-zA-Z0-9]*$"/>
+        </module>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+<!-- Reel Two CUST        <module name="StaticVariableName"/> -->
+        <module name="StaticVariableName">
+            <property name="format" value="^s[A-Z](_?[a-zA-Z0-9]+)*$"/>
+        </module>
+        <module name="TypeName"/>
+
+        <!-- Checks for Headers                                -->
+        <!-- See http://checkstyle.sf.net/config_header.html   -->
+        <!-- <module name="Header">                            -->
+            <!-- The follow property value demonstrates the ability     -->
+            <!-- to have access to ANT properties. In this case it uses -->
+            <!-- the ${basedir} property to allow Checkstyle to be run  -->
+            <!-- from any directory within a project. See property      -->
+            <!-- expansion,                                             -->
+            <!-- http://checkstyle.sf.net/config.html#properties        -->
+            <!-- <property                                              -->
+            <!--     name="headerFile"                                  -->
+            <!--     value="${basedir}/java.header"/>                   -->
+        <!-- </module> -->
+
+        <!-- Following interprets the header file as regular expressions. -->
+        <!-- <module name="RegexpHeader"/>                                -->
+
+
+        <!-- Checks for imports                              -->
+        <!-- See http://checkstyle.sf.net/config_import.html -->
+        <module name="AvoidStarImport"/>
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+<!-- Reel Two NOPE       <module name="LineLength"/> -->
+        <module name="MethodLength"/>
+
+<!-- Reel Two CUST               <module name="ParameterNumber"/> -->
+        <module name="ParameterNumber">
+          <property name="max" value="8"/>
+          <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+<!-- Reel Two NOPE        <module name="EmptyForIteratorPad"/> -->
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceAfter"/>
+<!-- Reel Two CUST       <module name="NoWhitespaceBefore"/> -->
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="POST_DEC,POST_INC"/>
+        </module>
+        <module name="OperatorWrap"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+<!-- Reel Two CUST        <module name="WhitespaceAround"/> -->
+        <module name="WhitespaceAround">
+          <!-- 
+             Removed checking around less than, greater than, wildcard_type until checkstyle understands generics better.
+             See http://sourceforge.net/tracker/index.php?func=detail&aid=1374798&group_id=29721&atid=397078
+          -->
+            <property name="tokens" value="ASSIGN, BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,QUESTION"/>
+        </module>
+
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <module name="AvoidNestedBlocks"/>
+<!-- Reel Two NOPE        <module name="EmptyBlock"/> -->
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+<!-- Reel Two NOPE       <module name="AvoidInlineConditionals"/> -->
+<!--        <module name="DoubleCheckedLocking"/> -->   <!-- MY FAVOURITE -->
+<!-- Reel Two NOPE        <module name="EmptyStatement"/> -->
+        <module name="EqualsHashCode"/>
+        <module name="HiddenField"/>
+        <module name="IllegalInstantiation"/>
+<!-- Reel Two NOPE       <module name="InnerAssignment"/> -->
+<!-- Reel Two NOPE       <module name="MagicNumber"/> -->
+        <module name="MissingSwitchDefault"/>
+<!-- Reel Two BROKEN        <module name="RedundantThrows"/> -->
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.sf.net/config_design.html -->
+<!-- Reel Two NOPE       <module name="DesignForExtension"/> -->
+<!-- Reel Two LATER        <module name="FinalClass"/> -->
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InterfaceIsType"/>
+<!-- Reel Two LATER        <module name="VisibilityModifier"/> -->
+        <module name="VisibilityModifier">
+            <property name="packageAllowed" value="true"/>
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="ArrayTypeStyle"/>
+<!-- Reel Two LATER        <module name="FinalParameters"/> -->
+<!-- Reel Two NOPE       <module name="RegexpSinglelineJava">
+            <property name="format" value="\s+$"/>
+            <property name="message" value="Line has trailing spaces."/>
+        </module> -->
+<!-- Reel Two ADDED:START -->
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="^[^&quot;]+\s+\[\]"/>
+            <property name="message" value="Array brackets must not have preceeding spaces."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\snew\s\S+\s+\["/>
+            <property name="message" value="Array brackets must not have preceeding spaces."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="^[^&quot;/\*]+\][a-zA-Z]"/>
+            <property name="message" value="Array brackets must have following space."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="^\s+/\*\*\s+.*[^/]$"/>
+            <property name="message" value="Start multiline javadoc comments on the next line, please."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="^\s+\*\s.*\*/"/>
+            <property name="message" value="End multiline javadoc comments on the next line, please."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="&lt;\s+\?"/>
+            <property name="message" value="Remove space before wildcard type."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\?\s+&gt;"/>
+            <property name="message" value="Remove space after wildcard type."/>
+        </module>
+        <module name="FileContentsHolder">
+        </module>
+<!-- Reel Two ADDED:END -->
+        <module name="TodoComment"/>
+        <module name="UpperEll"/>
+
+    </module>
+    <module name="FileLength"/>
+    <module name="FileTabCharacter"/>
+<!-- Reel Two ADDED:START -->
+    <module name="SuppressionCommentFilter"/>
+<!-- Reel Two ADDED:END -->
+
+</module>
