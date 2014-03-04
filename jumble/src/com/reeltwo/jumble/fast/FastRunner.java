@@ -123,7 +123,7 @@ public class FastRunner {
   /** ClassName maps to a list of Mutations (their description strings) in this class. */
   Map<String, List<String>> mClassMutMap = null;
 
-  /** TestClassName maps to a list of TestMethods in this test class. */
+  /** TestClassName maps to a list of test methods in this test class. */
   Map<String, List<String>> mTestMap = null;
 
   public FastRunner() {
@@ -580,7 +580,7 @@ public class FastRunner {
 
       List<String> tMethods = mTestMap.get(testClassName);
       if (tMethods == null) {
-    	tMethods = new ArrayList<String>();
+        tMethods = new ArrayList<String>();
         mTestMap.put(testClassName, tMethods);
       }
       if (!tMethods.contains(testName)) {
@@ -591,10 +591,10 @@ public class FastRunner {
 
   /**
    * Writes the statistic results into a file for the class being tested.
-   * See the example output files in the test/com.reeltwo.jumble.fast.expected_stats folder.
+   * See the example output files in the <code>test/com.reeltwo.jumble.fast.expected_stats</code> folder.
    *
    * @param cName   statistics file name (usually the qualified class name).
-   * @return
+   * @return true if the statistics file was written OK, otherwise false.
    */
   private boolean writeStats(String cName) {
     try {
@@ -616,8 +616,8 @@ public class FastRunner {
       o.append("\t");
       o.append("\t");
       for (Entry<String, List<String>> tMethods : mTestMap.entrySet()) {
-    	// sort each list of method names so that we get a consistent output order.
-    	Collections.sort(tMethods.getValue());
+        // sort each list of method names so that we get a consistent output order.
+        Collections.sort(tMethods.getValue());
         // Output test methods names (sorted) in each test class
         for (String method : tMethods.getValue()) {
           o.append(method + "\t");
@@ -1241,13 +1241,10 @@ public class FastRunner {
    * Goes through class names to find out if they can be resolved. Also checks
    * that all declared test classes are actually test cases.
    *
-   * @param out
-   *          listener where the error is reported.
-   * @param className
-   *          name of the class being jumbled.
-   * @param testClassNames
-   *          list of test class names.
-   * @return
+   * @param out listener where the error is reported.
+   * @param className name of the class being jumbled.
+   * @param testClassNames list of test class names.
+   * @return true if all class names were resolved as test classes.
    */
   private boolean checkClasses(JumbleListener out, String className, List<String> testClassNames) {
     boolean ok = true;

@@ -3,7 +3,6 @@ package com.reeltwo.jumble;
 
 import com.reeltwo.jumble.annotations.JumbleAnnotationProcessor;
 import com.reeltwo.jumble.fast.FastRunner;
-import com.reeltwo.jumble.ui.EclipseFormatListener;
 import com.reeltwo.jumble.ui.EmacsFormatListener;
 import com.reeltwo.jumble.ui.JumbleListener;
 import com.reeltwo.jumble.ui.JumbleScorePrinterListener;

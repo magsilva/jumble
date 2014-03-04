@@ -69,7 +69,6 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:sean@netvalue.net.nz">Sean Irvine</a>
  * @author <a href="mailto:jcleary@netvalue.net.nz">John Cleary</a>
  * @version $Revision: 1.123 $
- * @since 1.0
  */
 public final class CLIFlags {
 
@@ -83,7 +82,7 @@ public final class CLIFlags {
 
     /**
      * Returns false if the current flag settings are not valid. An error
-     * message should be supplied by calling flags.setParseMessage()
+     * message should be supplied by calling <code>flags.setParseMessage()</code>
      * 
      * @param flags a <code>CLIFlags</code>.
      * @return true if the current flag settings are valid.
@@ -1117,7 +1116,7 @@ public final class CLIFlags {
   }
 
   /**
-   * Registers a required flag. This flag requres a parameter of a specified
+   * Registers a required flag. This flag requires a parameter of a specified
    * type.
    * 
    * @param name the option name (without the prefix string).
@@ -1137,7 +1136,7 @@ public final class CLIFlags {
   }
 
   /**
-   * Registers a required flag. This flag requres a parameter of a specified
+   * Registers a required flag. This flag requires a parameter of a specified
    * type.
    * 
    * @param nameChar single letter name.
@@ -1166,7 +1165,7 @@ public final class CLIFlags {
   // Optional flags
 
   /**
-   * Registers an option. When provided, this option requres a parameter of a
+   * Registers an option. When provided, this option requires a parameter of a
    * specified type.
    * 
    * @param name the option name (without the prefix string).
@@ -1186,7 +1185,7 @@ public final class CLIFlags {
   }
 
   /**
-   * Registers an option. This option requres a parameter of a specified type.
+   * Registers an option. This option requires a parameter of a specified type.
    * 
    * @param name the option name (without the prefix string).
    * @param type the <code>Class</code> of the expected parameter. Supported
@@ -1205,7 +1204,7 @@ public final class CLIFlags {
   }
 
   /**
-   * Registers an option. This option requres a parameter of a specified type.
+   * Registers an option. This option requires a parameter of a specified type.
    * 
    * @param nameChar single letter name.
    * @param name the option name (without the prefix string).
@@ -1225,7 +1224,7 @@ public final class CLIFlags {
   }
 
   /**
-   * Registers an option. This option requres a parameter of a specified type.
+   * Registers an option. This option requires a parameter of a specified type.
    * 
    * @param nameChar single letter name.
    * @param name the option name (without the prefix string).

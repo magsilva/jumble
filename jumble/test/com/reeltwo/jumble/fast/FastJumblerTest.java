@@ -85,7 +85,7 @@ public final void tearDown() {
         assertTrue(line.startsWith("PASS: experiments.JumblerExperiment"));
         String[] tests = line.split(";");
         for (String test : tests) {
-          String segs[] = test.split("/");
+          String[] segs = test.split("/");
           if (Integer.parseInt(segs[2]) == 0) {
             assertEquals("testAdd", segs[1]);
           }
@@ -102,7 +102,7 @@ public final void tearDown() {
     File f = new File(System.getProperty("user.home"), ".com.reeltwo.jumble-cache.dat");
     assertTrue(!f.exists() || f.delete());
 
-    ArrayList < String > tests = new ArrayList < String > ();
+    ArrayList<String> tests = new ArrayList<String>();
     tests.add("experiments.JumblerExperimentTest");
     FastRunner runner = new FastRunner();
     runner.runJumble("experiments.JumblerExperiment", tests, null);

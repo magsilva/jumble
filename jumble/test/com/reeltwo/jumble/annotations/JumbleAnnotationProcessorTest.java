@@ -13,7 +13,7 @@ import junit.framework.TestSuite;
  */
 public class JumbleAnnotationProcessorTest extends TestCase {
   public void testGetTestClassName() throws ClassNotFoundException {
-    assertEquals(new ArrayList < String > () { { add("DummyClassTest"); } }, new JumbleAnnotationProcessor().getTestClassNames(DummyClass.class.getName(), System.getProperty("java.class.path")));
+    assertEquals(new ArrayList<String>() { { add("DummyClassTest"); } }, new JumbleAnnotationProcessor().getTestClassNames(DummyClass.class.getName(), System.getProperty("java.class.path")));
   }
   
   public void testGetTestClassNameWithNoAnnotationReturnsEmptyList() throws ClassNotFoundException {

@@ -60,7 +60,6 @@
         <module name="JavadocType">
             <property name="scope" value="public"/>
             <property name="authorFormat" value="\S"/>
-            <property name="versionFormat" value="\$Revision.*\$"/>
         </module>
 <!-- Reel Two LATER       <module name="JavadocVariable"/> -->
 <!-- Reel Two LATER       <module name="JavadocStyle"/> -->

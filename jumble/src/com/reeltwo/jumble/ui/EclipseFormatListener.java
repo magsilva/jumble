@@ -2,17 +2,12 @@ package com.reeltwo.jumble.ui;
 
 
 
-import com.reeltwo.jumble.fast.JumbleResult;
 import com.reeltwo.jumble.fast.MutationResult;
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.List;
-import org.apache.bcel.util.ClassPath;
 
 /**
  * Prints the results of a Jumble run in <code>Eclipse</code> console compatible format.
- * That is, each mutation failure is printed as "(package.File.java:LineNum)".
+ * That is, each mutation failure is printed as <code>(package.File.java:LineNum)</code>.
  *
  * @author Mark Utting
  */
