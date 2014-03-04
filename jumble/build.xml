@@ -129,6 +129,20 @@
     </javadoc>
   </target>
 
+  <target name="spellcheck" depends="compile" description="Run spellchecker over source.">
+    <java jar="${lib.dir}/spelling.jar" fork="true">
+      <arg line="-c"/>
+      <arg file=".cvscheck/spelling.case-sensitive"/>
+      <arg line="-d"/>
+      <arg file=".cvscheck/spelling.case-insensitive"/>
+      <arg line="-x"/>
+      <arg file=".cvscheck/spelling.excludes"/>
+      <arg line="--classpath"/>
+      <arg path="${src.build.dir}"/>
+      <arg file="${src.dir}"/>
+    </java>
+  </target>
+
   <!-- Build jar file containing utility code from the Reel Two
        internal source tree. Can only be run by someone at Reel
        Two.
