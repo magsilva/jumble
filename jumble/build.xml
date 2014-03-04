@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="jumble" basedir="." default="jar">
+<project name="jumble" basedir="." default="all">
 
   <property name="src.dir" location="src" />
   <property name="test.dir" location="test" />
@@ -142,6 +142,8 @@
       <arg file="${src.dir}"/>
     </java>
   </target>
+
+  <target name="all" depends="compile,checkstyle,findbugs,spellcheck,javadoc,test,jar" description="Run all targets that should be run before commit."/>
 
   <!-- Build jar file containing utility code from the Reel Two
        internal source tree. Can only be run by someone at Reel
