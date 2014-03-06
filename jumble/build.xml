@@ -43,7 +43,7 @@
   </target>
 
   <target name="jar" depends="compile" description="Generates a JAR file containing Jumble and its dependencies">
-    <jar destfile="jumble.jar">
+    <jar destfile="${build.dir}/jumble.jar">
       <fileset dir="${src.build.dir}" includes="**/*.class" />
       <zipfileset src="${lib.dir}/bcel.jar" />
       <zipfileset src="${lib.dir}/jumble-annotations.jar" />
