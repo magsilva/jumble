@@ -6,6 +6,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.HashSet;
+
 import com.reeltwo.jumble.mutation.Mutater;
 import com.reeltwo.jumble.mutation.MutatingClassLoader;
 import com.reeltwo.util.CLIFlags;
@@ -104,8 +105,12 @@ public class FastJumbler {
 
     final int mutationCount = jumbler.countMutationPoints(className);
     ObjectInputStream ois = new ObjectInputStream(new FileInputStream(testSuiteFlag.getValue()));
-    final TestOrder order = (TestOrder) ois.readObject();
-    ois.close();
+    final TestOrder order;
+    try {
+      order = (TestOrder) ois.readObject();
+    } finally {
+      ois.close();
+    }
 
     FailedTestMap cache = null;
     if (cacheFileFlag.isSet()) {

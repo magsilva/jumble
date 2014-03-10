@@ -486,8 +486,11 @@ public class FastRunner {
         throw new IOException("Could not delete existing cache " + f);
       }
       ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(f));
-      o.writeObject(mCache);
-      o.close();
+      try {
+        o.writeObject(mCache);
+      } finally {
+        o.close();
+      }
       return true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -571,7 +574,7 @@ public class FastRunner {
       StringTokenizer ts = new StringTokenizer(testMethod, "/");
       String testClassName = ts.nextToken();
       String testName = testClassName + "." + ts.nextToken();
-      int status = Integer.valueOf(ts.nextToken());
+      int status = Integer.parseInt(ts.nextToken());
       String testTime = ts.nextToken();
       MutationKey mutationKey = new MutationKey(
           clazzName, testClassName, testName, modification);

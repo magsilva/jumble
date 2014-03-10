@@ -11,6 +11,15 @@
         <BugCode name="SnVI,PZLA,BC,EI,EI2"/>
      </Match>
 
+     <Match classregex=".*">
+        <Bug pattern="DM_DEFAULT_ENCODING"/>
+     </Match>
+
+     <!-- Deliberate call to System.exit() on invalid command line flags -->
+     <Match classregex="com.reeltwo.util.CliFlags*">
+       <Bug pattern="DM_EXIT"/>
+     </Match>
+
      <!-- Skip unreferenced field in anonymous classes -->
      <Match classregex=".*\$[0-9]+">
        <BugCode name="UrF"/>

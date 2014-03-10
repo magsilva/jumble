@@ -306,10 +306,6 @@ public final class CLIFlags {
         //%string valueOfMethod = "ValueOf";
         final String valueOfMethod = "valueOf";
         v = type.getMethod(valueOfMethod, new Class[] {String.class});
-        if (v == null) {
-          return false;
-        }
-      
       } catch (final SecurityException e) {
         return false;
         //%catch (Exception e) {
@@ -686,7 +682,7 @@ public final class CLIFlags {
           }
           return (T) result;
         } else if (type == Byte.class) {
-          return (T) new Byte(stringRep);
+          return (T) Byte.valueOf(stringRep);
         } else if (type == Character.class) {
           return (T) Character.valueOf(stringRep.charAt(0));
         } else if (type == Float.class) {
@@ -784,6 +780,11 @@ public final class CLIFlags {
 
     private static int sAnonCounter = 0;
 
+    private static synchronized int nextAnonCounter() {
+      return ++sAnonCounter;
+    }
+
+
     /** This specifies the ordering. */
     private final int mFlagRank;
 
@@ -800,7 +801,7 @@ public final class CLIFlags {
     public AnonymousFlag(final String flagDescription, Class<T> paramType,
         final String paramDescription) {
       super(null, null, flagDescription, 1, 1, paramType, paramDescription, null);
-      mFlagRank = ++sAnonCounter;
+      mFlagRank = nextAnonCounter();
     }
 
     /** {@inheritDoc} */
