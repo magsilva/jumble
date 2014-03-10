@@ -8,7 +8,7 @@ experiments.JumblerExperiment	experiments.JumblerExperiment:21: negated conditio
 	experiments.JumblerExperiment:38: 0 -> 1	F/0.0s	F/0.0s	F/0.0s	--	
 	experiments.JumblerExperiment:39: 0 -> 1	F/0.0s	P/0.0s	F/0.0s	--	
 	experiments.JumblerExperiment:40: 0 -> 1	F/0.0s	P/0.0s	F/0.0s	--	
+	experiments.JumblerExperiment:41: negated conditional	F/0.0s	P/0.0s	F/0.0s	--	
 	experiments.JumblerExperiment:42: += -> -=	F/0.0s	F/0.0s	F/0.0s	--	
 	experiments.JumblerExperiment:43: + -> -	F/0.0s	P/0.0s	F/0.0s	--	
-	experiments.JumblerExperiment:41: negated conditional	F/0.0s	P/0.0s	F/0.0s	--	
 	experiments.JumblerExperiment:47: changed return value (ireturn)	--	--	P/0.0s	P/0.0s	
