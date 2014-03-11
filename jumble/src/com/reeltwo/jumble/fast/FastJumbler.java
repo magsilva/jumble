@@ -115,8 +115,11 @@ public class FastJumbler {
     FailedTestMap cache = null;
     if (cacheFileFlag.isSet()) {
       ois = new ObjectInputStream(new FileInputStream(cacheFileFlag.getValue()));
-      cache = (FailedTestMap) ois.readObject();
-      ois.close();
+      try {
+        cache = (FailedTestMap) ois.readObject();
+      } finally {
+        ois.close();
+      }
     }
 
     MemoryMXBean mxbean = ManagementFactory.getMemoryMXBean();

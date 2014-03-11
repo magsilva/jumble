@@ -16,7 +16,7 @@
      </Match>
 
      <!-- Deliberate call to System.exit() on invalid command line flags -->
-     <Match classregex="com.reeltwo.util.CliFlags*">
+     <Match classregex="com.reeltwo.util.CLIFlags.*">
        <Bug pattern="DM_EXIT"/>
      </Match>
 

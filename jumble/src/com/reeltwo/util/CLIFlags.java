@@ -169,7 +169,7 @@ public final class CLIFlags {
       mParameterType = paramType;
       mParameterDescription = ((paramDescription == null) || (paramDescription.length() == 0)) 
         ? autoDescription(mParameterType)
-        : paramDescription.toUpperCase();
+        : paramDescription.toUpperCase(Locale.ROOT);
       mParameterDefault = paramDefault;
 
       mMinCount = minCount;
@@ -650,7 +650,7 @@ public final class CLIFlags {
 
     private static String autoDescription(Class type) {
       final String result = type.getName();
-      return result.substring(result.lastIndexOf('.') + 1).toUpperCase();
+      return result.substring(result.lastIndexOf('.') + 1).toUpperCase(Locale.ROOT);
     }
 
     private static final Set<String> BOOLEAN_AFFIRMATIVE = new HashSet<String>();
@@ -677,7 +677,7 @@ public final class CLIFlags {
       try {
         if (type == Boolean.class) {
           Boolean result = Boolean.valueOf(stringRep);
-          if (!result.booleanValue() && BOOLEAN_AFFIRMATIVE.contains(stringRep.toLowerCase())) {
+          if (!result.booleanValue() && BOOLEAN_AFFIRMATIVE.contains(stringRep.toLowerCase(Locale.ROOT))) {
             result = Boolean.TRUE;
           }
           return (T) result;
@@ -694,7 +694,7 @@ public final class CLIFlags {
         } else if (type == Long.class) {
           return (T) Long.valueOf(stringRep);
         } else if (type == Short.class) {
-          return (T) new Short(stringRep);
+          return (T) Short.valueOf(stringRep);
         } else if (type == File.class) {
           return (T) new File(stringRep);
         } else if (type == URL.class) {
@@ -702,7 +702,7 @@ public final class CLIFlags {
         } else if (type == String.class) {
           return (T) stringRep;
         } else if (isValidEnum(type)) {
-          return (T) valueOf(type, stringRep.toUpperCase(Locale.getDefault()));
+          return (T) valueOf(type, stringRep.toUpperCase(Locale.ROOT));
         } else if (type == Class.class) {
           return (T) Class.forName(stringRep);
         }
@@ -954,7 +954,7 @@ public final class CLIFlags {
         final InputStream is = p.getInputStream();
         final byte[] b = new byte[is.available()];
         if (is.read(b) == b.length) {
-          final String columnsEnv = new String(b).toUpperCase();
+          final String columnsEnv = new String(b).toUpperCase(Locale.ROOT);
           final Matcher m = Pattern.compile(":CO#([0-9]+):").matcher(columnsEnv);
           if (m.find()) {
             defaultWidth = Integer.parseInt(m.group(1));
