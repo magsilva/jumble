@@ -1,10 +1,12 @@
 package com.reeltwo.jumble.annotations;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.reeltwo.jumble.mutation.Mutater;
 import com.reeltwo.jumble.mutation.MutatingClassLoader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class for processing Jumble annotations.
@@ -23,9 +25,7 @@ public class JumbleAnnotationProcessor {
       List<String> testClassNames = new ArrayList<String>();
       if (testClass != null) {
         String[] testClasses = testClass.value();
-        for (String testClassName : testClasses) {
-          testClassNames.add(testClassName);
-        }
+        Collections.addAll(testClassNames, testClasses);
       }
       return testClassNames;
     } finally {

@@ -45,7 +45,6 @@ public void run() {
         System.out.println("F");
       }
     } catch (IOException e) {
-      return;
     }
   }
 

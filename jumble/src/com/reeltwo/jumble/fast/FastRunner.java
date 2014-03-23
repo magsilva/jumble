@@ -420,7 +420,7 @@ public class FastRunner {
   /**
    * Sets whether record statistic mode is enabled.
    *
-   * @param recStat
+   * @param recStat  true if record statistics mode is enabled.
    */
   public void setRecStat(final boolean recStat) {
     mRecStat = recStat;
@@ -824,9 +824,8 @@ public class FastRunner {
     int colCount = row.get(0).size();
     for (int j = 0; j < colCount - 1; j++) {
       boolean isFound = false;
-      for (int i = 0; i < row.size(); i++) {
-        List<Integer> col = row.get(i);
-        if (col.get(j).intValue() != 0) {
+      for (List<Integer> col : row) {
+        if (col.get(j) != 0) {
           isFound = true;
           break;
         }
@@ -837,8 +836,7 @@ public class FastRunner {
       }
     }
 
-    for (int i = 0; i < row.size(); i++) {
-      List<Integer> col = row.get(i);
+    for (List<Integer> col : row) {
       for (int j = 0; j < col.size(); j++) {
         if (!removedTests.contains(j)) {
           o.append(col.get(j) + " ");
@@ -964,7 +962,7 @@ public class FastRunner {
 
     // exclude methods
     if (!mExcludeMethods.isEmpty()) {
-      StringBuffer ex = new StringBuffer();
+      StringBuilder ex = new StringBuilder();
       Iterator<String> it = mExcludeMethods.iterator();
       for (int i = 0; i < mExcludeMethods.size(); i++) {
         if (i == 0) {
@@ -1156,7 +1154,7 @@ public class FastRunner {
       if (mMutationCount == -1) {
         return new InterfaceResult(mClassName);
       }
-      TimingTestSuite suite = null;
+      TimingTestSuite suite;
       try {
         suite = new TimingTestSuite(jumbler, testClassNames.toArray(new String[testClassNames.size()]));
       } catch (ClassNotFoundException e) {
@@ -1259,13 +1257,12 @@ public class FastRunner {
       }
       Class<?> clazz = jumbler.loadClass(className);
       if (!clazz.isInterface()) {
-        for (int i = 0; i < testClassNames.size(); i++) {
-          String testName = testClassNames.get(i);
+        for (String testName : testClassNames) {
           Class<?> test = null;
           try {
             test = jumbler.loadClass(testName);
           } catch (ClassNotFoundException e) {
-            ; // Do nothing. No test class is handled elswhere
+            // Do nothing. No test class is handled elswhere
           }
           if (test != null && !JumbleUtils.isTestClass(test)) {
             out.error(testName + " is not a test class.");

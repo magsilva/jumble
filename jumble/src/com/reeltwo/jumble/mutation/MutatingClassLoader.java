@@ -116,7 +116,7 @@ public class MutatingClassLoader extends ClassLoader {
 
   @Override
   protected Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
-    Class cl = null;
+    Class cl;
     if ((cl = mClasses.get(className)) == null) {
       // Classes we're forcing to be loaded by mDeferTo
       if (isLoadedByDeferredClassLoader(className)) {
@@ -133,7 +133,7 @@ public class MutatingClassLoader extends ClassLoader {
             clazz = modifyClass(clazz);
           }
         } catch (ClassNotFoundException e) {
-          ; // OK, because we'll let Class.forName handle it
+          // OK, because we'll let Class.forName handle it
         }
 
         if (clazz != null) {
@@ -158,13 +158,13 @@ public class MutatingClassLoader extends ClassLoader {
   }
 
   boolean isLoadedByDeferredClassLoader(String className) {
-    for (int i = 0; i < mDontDeferPrefixes.length; i++) {
-      if (className.startsWith(mDontDeferPrefixes[i])) {
+    for (final String mDontDeferPrefixe : mDontDeferPrefixes) {
+      if (className.startsWith(mDontDeferPrefixe)) {
         return false;
       }
-    }    
-    for (int i = 0; i < mDeferPrefixes.length; i++) {
-      if (className.startsWith(mDeferPrefixes[i])) {
+    }
+    for (final String mDeferPrefixe : mDeferPrefixes) {
+      if (className.startsWith(mDeferPrefixe)) {
         return true;
       }
     }    

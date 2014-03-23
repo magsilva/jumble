@@ -36,7 +36,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
    * Creates a new TestOrder with the specified test classes and no
    * particular ordering.
    * 
-   * @param testClasses
+   * @param testClasses the list of test classes
    */
   public TestOrder(Class[] testClasses) {
     this(testClasses, createOrdering(testClasses.length));
@@ -45,7 +45,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
   /**
    * Creates a new TestOrder with the specified test classes and runtimes.
    * 
-   * @param testClasses
+   * @param testClasses the list of test classes
    * @param runtimes the runtimes of the tests.
    */
   public TestOrder(Class[] testClasses, long[] runtimes) {
@@ -55,7 +55,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
   /**
    * Creates a new TestOrder with the specified test classes and ordering
    * 
-   * @param testClasses
+   * @param testClasses the list of test classes
    * @param order order permutation
    */
   public TestOrder(Class[] testClasses, int[] order) {
@@ -70,7 +70,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
   /**
    * Constructor used to clone the object.
    * 
-   * @param testClasses string of test classes
+   * @param testClasses the list of test class names
    * @param order order permutation
    */
   public TestOrder(String[] testClasses, int[] order) {
@@ -128,7 +128,7 @@ public class TestOrder implements Serializable, ClassLoaderCloneable {
 
     try {
       Constructor<?> c = clazz.getConstructor(new Class[] {String[].class, int[].class});
-      return c.newInstance(new Object[] {mTestClasses, mOrder});
+      return c.newInstance(mTestClasses, mOrder);
     } catch (InstantiationException e) {
       e.printStackTrace();
       throw new ClassNotFoundException("Error invoking constructor");

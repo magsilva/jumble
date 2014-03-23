@@ -164,8 +164,8 @@ public class JavaRunner {
     int idx = 0;
     command[idx++] = mJvmBin;
     if (mJvmArgs != null) {
-      for (int i = 0; i < mJvmArgs.length; i++) {
-        command[idx++] = mJvmArgs[i];
+      for (final String mJvmArg : mJvmArgs) {
+        command[idx++] = mJvmArg;
       }
     }
     command[idx++] = getClassName();
@@ -176,7 +176,7 @@ public class JavaRunner {
   }
 
   private String toString(String[] command) {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     for (int i = 0; i < command.length; i++) {
       if (i != 0) {
         sb.append(' ');
@@ -187,7 +187,7 @@ public class JavaRunner {
   }
 
   @Override
-public String toString() {
+  public String toString() {
     return toString(getExecArgs());
   }
 }

@@ -67,8 +67,7 @@ public class FastRunnerTest extends TestCase {
   }
 
   public static Test suite() {
-    TestSuite suite = new TestSuite(FastRunnerTest.class);
-    return suite;
+    return new TestSuite(FastRunnerTest.class);
   }
 
   public static void main(String[] args) {

@@ -1,18 +1,19 @@
 package com.reeltwo.jumble;
 
 
-import com.reeltwo.jumble.annotations.JumbleAnnotationProcessor;
-import com.reeltwo.jumble.fast.FastRunner;
-import com.reeltwo.jumble.ui.EmacsFormatListener;
-import com.reeltwo.jumble.ui.JumbleListener;
-import com.reeltwo.jumble.ui.JumbleScorePrinterListener;
-import com.reeltwo.util.CLIFlags.Flag;
-import com.reeltwo.util.CLIFlags;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.reeltwo.jumble.annotations.JumbleAnnotationProcessor;
+import com.reeltwo.jumble.fast.FastRunner;
+import com.reeltwo.jumble.ui.EmacsFormatListener;
+import com.reeltwo.jumble.ui.JumbleListener;
+import com.reeltwo.jumble.ui.JumbleScorePrinterListener;
+import com.reeltwo.util.CLIFlags;
+import com.reeltwo.util.CLIFlags.Flag;
 
 /**
  * A CLI interface to the <CODE>FastRunner</CODE>.
@@ -228,7 +229,7 @@ public class Jumble {
       final Class<?> clazz = Class.forName(className); // Class to be found in jumble.jar
       try {
         final Constructor<?> c = clazz.getConstructor(new Class[0]);
-        return (JumbleListener) c.newInstance(new Object[0]);
+        return (JumbleListener) c.newInstance();
       } catch (IllegalAccessException e) {
         System.err.println("Invalid output class. Exception: ");
         e.printStackTrace();
@@ -243,7 +244,7 @@ public class Jumble {
         e.printStackTrace();
       }
     } catch (ClassNotFoundException e) {
-      ; // too bad
+      // too bad
     }
     throw new IllegalArgumentException("Couldn't create JumbleListener: " + className);
   }

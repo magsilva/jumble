@@ -206,8 +206,7 @@ public final class CLIFlags {
           return null;
         }
         //System.err.println("m=" + m + " parameters=" + Arrays.toString(m.getParameterTypes()));
-        final Object ret = m.invoke(null, new Object[] {str});
-        return ret;
+        return m.invoke(null, new Object[] {str});
         //%catch (NullReferenceException e) { //getMethod returns null in c# in this case
       } catch (final NoSuchMethodException e) {
         //Should never happen
@@ -267,7 +266,7 @@ public final class CLIFlags {
      * Must implement 
      *    static T[] values()
      *    static T value(String)
-     * @param type
+     * @param type the type to see if it can be treated as an Enum
      * @return true iff is an Enum or looks sufficiently like one.
      */
     //%internal static bool IsValidEnum(Type type) {
@@ -476,8 +475,7 @@ public final class CLIFlags {
           throw new IllegalArgumentException("Must specify at least two values in parameter range.");
         }
         List<String> l = new ArrayList<String>();
-        for (int i = 0; i < range.length; i++) {
-          final String s = range[i];
+        for (final String s : range) {
           try {
             parseValue(s);
           } catch (Exception e) {
@@ -611,7 +609,7 @@ public final class CLIFlags {
       if (getChar() == null) {
         wb.append("    ");
       } else {
-        wb.append(SHORT_FLAG_PREFIX).append(getChar().charValue()).append(", ");
+        wb.append(SHORT_FLAG_PREFIX).append(getChar()).append(", ");
       }
 
       final String usageStr = getFlagUsage();
@@ -677,7 +675,7 @@ public final class CLIFlags {
       try {
         if (type == Boolean.class) {
           Boolean result = Boolean.valueOf(stringRep);
-          if (!result.booleanValue() && BOOLEAN_AFFIRMATIVE.contains(stringRep.toLowerCase(Locale.ROOT))) {
+          if (!result && BOOLEAN_AFFIRMATIVE.contains(stringRep.toLowerCase(Locale.ROOT))) {
             result = Boolean.TRUE;
           }
           return (T) result;
@@ -966,7 +964,7 @@ public final class CLIFlags {
         p.getErrorStream().close();
       }
     } catch (Throwable t) {
-      ; // We really don't care, just fall back on the default
+      // We really don't care, just fall back on the default
     }
     // System.err.println("Default width is " + defaultWidth);
     DEFAULT_WIDTH = defaultWidth;
@@ -1340,9 +1338,8 @@ public final class CLIFlags {
       } else {
         usage.append("unexpected arguments");
       }
-      Iterator remItr = remaining.iterator();
-      while (remItr.hasNext()) {
-        final String s = (String) remItr.next();
+      for (Object aRemaining : remaining) {
+        final String s = (String) aRemaining;
         usage.append(' ').append(s);
       }
     }
@@ -1357,9 +1354,8 @@ public final class CLIFlags {
       } else {
         usage.append("you must provide values for");
       }
-      Iterator reqItr = pendingRequired.iterator();
-      while (reqItr.hasNext()) {
-        Flag f = (Flag) reqItr.next();
+      for (Object aPendingRequired : pendingRequired) {
+        Flag f = (Flag) aPendingRequired;
         usage.append(' ').append(f.getCompactFlagUsage());
         if (f.getMinCount() > 1) {
           final int count = f.getMinCount() - f.getCount();
@@ -1490,7 +1486,7 @@ public final class CLIFlags {
           }
           flag = getFlag(name);
         } else if (nameArg.length() == SHORT_FLAG_PREFIX.length() + 1) {
-          Character nameChar = Character.valueOf(nameArg.charAt(SHORT_FLAG_PREFIX.length()));
+          Character nameChar = nameArg.charAt(SHORT_FLAG_PREFIX.length());
           flag = mShortNames.get(nameChar);
         }
         if (flag == null) {
@@ -1700,9 +1696,8 @@ public final class CLIFlags {
       wb.wrapWord("[OPTION]...");
       first = false;
     }
-    Iterator it = getRequired().iterator();
-    while (it.hasNext()) {
-      wb.wrapWord((first ? "" : " ") + ((Flag) it.next()).getCompactFlagUsage());
+    for (Object o : getRequired()) {
+      wb.wrapWord((first ? "" : " ") + ((Flag) o).getCompactFlagUsage());
       first = false;
     }
   }
@@ -1750,10 +1745,8 @@ public final class CLIFlags {
   void appendLongFlagUsage(WrappingStringBuffer wb) {
     int longestUsageLength = 0;
     // Get longest string lengths for use below in pretty-printing.
-    final Iterator flagItr = mRegisteredFlags.iterator();
-    while (flagItr.hasNext()) {
-      Flag flag = (Flag) flagItr.next();
-      final String usageStr = flag.getFlagUsage();
+    for (Object flag : mRegisteredFlags) {
+      final String usageStr = ((Flag) flag).getFlagUsage();
       if (usageStr.length() > longestUsageLength) {
         longestUsageLength = usageStr.length();
       }
@@ -1765,8 +1758,8 @@ public final class CLIFlags {
       wb.append(LS);
       wb.append(REQUIRED_FLAG_USAGE_PREFIX).append(LS);
       wb.setWrapIndent(longestUsageLength + 7);
-      for (Iterator flagItr2 = required.iterator(); flagItr2.hasNext();) {
-        ((Flag) flagItr2.next()).appendLongFlagUsage(wb, longestUsageLength);
+      for (final Object aRequired : required) {
+        ((Flag) aRequired).appendLongFlagUsage(wb, longestUsageLength);
       }
     }
 
@@ -1777,8 +1770,8 @@ public final class CLIFlags {
       wb.append(LS);
       wb.append(OPTIONAL_FLAG_USAGE_PREFIX).append(LS);
       wb.setWrapIndent(longestUsageLength + 7);
-      for (Iterator flagItr2 = optional.iterator(); flagItr2.hasNext();) {
-        ((Flag) flagItr2.next()).appendLongFlagUsage(wb, longestUsageLength);
+      for (final Object anOptional : optional) {
+        ((Flag) anOptional).appendLongFlagUsage(wb, longestUsageLength);
       }
     }
   }

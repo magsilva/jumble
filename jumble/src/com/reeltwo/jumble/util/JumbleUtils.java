@@ -41,8 +41,8 @@ public class JumbleUtils {
     // search through all its interfaces
     while (tmp != Object.class) {
       Class<?>[] intfc = tmp.getInterfaces();
-      for (int i = 0; i < intfc.length; i++) {
-        if (intfc[i].getName().equals("junit.framework.Test")) {
+      for (final Class<?> anIntfc : intfc) {
+        if (anIntfc.getName().equals("junit.framework.Test")) {
           return true;
         }
       }
@@ -84,7 +84,7 @@ public class JumbleUtils {
   /**
    * Gets the name of a test, (different method depending on underlying type).
    * 
-   * @param t
+   * @param t the test
    * @return test name
    */
   public static String getTestName(Test t) {

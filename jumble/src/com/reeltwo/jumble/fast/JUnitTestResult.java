@@ -3,6 +3,7 @@ package com.reeltwo.jumble.fast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+
 import junit.framework.TestFailure;
 import junit.framework.TestResult;
 
@@ -20,14 +21,14 @@ public class JUnitTestResult extends TestResult {
 
   @Override
   public String toString() {
-    final StringBuffer sb = new StringBuffer();
+    final StringBuilder sb = new StringBuilder();
     for (final Enumeration<TestFailure> e = this.errors(); e.hasMoreElements(); ) {
-      final TestFailure f = (TestFailure) e.nextElement();
+      final TestFailure f = e.nextElement();
       sb.append("TEST FINISHED WITH ERROR: ").append(f.toString()).append(LS);
       sb.append(f.trace());
     }
     for (final Enumeration<TestFailure> e = failures(); e.hasMoreElements(); ) {
-      final TestFailure f = (TestFailure) e.nextElement();
+      final TestFailure f = e.nextElement();
       sb.append("TEST FINISHED WITH FAILURE: ").append(f.toString()).append(LS);
       sb.append(f.trace());
     }

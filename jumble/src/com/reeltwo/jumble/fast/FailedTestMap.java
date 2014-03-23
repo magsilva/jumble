@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,7 +54,7 @@ public class FailedTestMap implements Serializable, ClassLoaderCloneable {
       mCache.put(mutatedClass + "." + mutatedMethod, mutationToTest);
     }
 
-    mutationToTest.put(Integer.valueOf(methodRelativeMutationPoint), testName);
+    mutationToTest.put(methodRelativeMutationPoint, testName);
   }
 
   /**
@@ -66,12 +65,11 @@ public class FailedTestMap implements Serializable, ClassLoaderCloneable {
 
     try {
       Constructor<?> constructor = clazz.getConstructor(new Class[0]);
-      Object o = constructor.newInstance(new Object[0]);
+      Object o = constructor.newInstance();
       Method m = clazz.getMethod("addFailure", new Class[] {String.class, String.class, int.class, String.class});
 
       Set<String> keys = mCache.keySet();
-      for (Iterator<String> it = keys.iterator(); it.hasNext();) {
-        String curKey = it.next();
+      for (String curKey : keys) {
         String className = curKey.substring(0, curKey.indexOf("."));
         String methodName = curKey.substring(curKey.indexOf(".") + 1);
         Map<Integer, String> map = mCache.get(curKey);
@@ -79,8 +77,8 @@ public class FailedTestMap implements Serializable, ClassLoaderCloneable {
         int points = map.size();
 
         for (int i = 0; i < points; i++) {
-          String testName = map.get(Integer.valueOf(i));
-          m.invoke(o, new Object[] {className, methodName, Integer.valueOf(i), testName});
+          String testName = map.get(i);
+          m.invoke(o, className, methodName, i, testName);
         }
       }
       return o;
@@ -117,7 +115,7 @@ public class FailedTestMap implements Serializable, ClassLoaderCloneable {
     if (map == null) {
       return null;
     } 
-    return map.get(Integer.valueOf(mutationPoint));
+    return map.get(mutationPoint);
   }
 
   /**

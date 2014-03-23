@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.util.Collections;
 import java.util.HashSet;
 
 import com.reeltwo.jumble.mutation.Mutater;
@@ -85,9 +86,7 @@ public class FastJumbler {
     final Mutater mutater = new Mutater(-1);
     if (exFlag.isSet()) {
       final HashSet<String> ex = new HashSet<String>();
-      for (final String s : exFlag.getValue().split(",")) {
-        ex.add(s);
-      }
+      Collections.addAll(ex, exFlag.getValue().split(","));
       mutater.setIgnoredMethods(ex);
     }
     mutater.setMutateIncrements(incFlag.isSet());

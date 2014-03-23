@@ -1,9 +1,10 @@
 package com.reeltwo.jumble.ui;
 
-import com.reeltwo.jumble.fast.JumbleResult;
-import com.reeltwo.jumble.fast.MutationResult;
 import java.io.PrintStream;
 import java.util.List;
+
+import com.reeltwo.jumble.fast.JumbleResult;
+import com.reeltwo.jumble.fast.MutationResult;
 
 /**
  * Prints the results of a Jumble run to a <code>PrintStream</code>, this will
@@ -99,8 +100,8 @@ public class JumbleScorePrinterListener implements JumbleListener {
     }
 
     getStream().print("Tests:");
-    for (int i = 0; i < mTestNames.size(); i++) {
-      getStream().print(" " + mTestNames.get(i));
+    for (String mTestName : mTestNames) {
+      getStream().print(" " + mTestName);
     }
     getStream().println();
 

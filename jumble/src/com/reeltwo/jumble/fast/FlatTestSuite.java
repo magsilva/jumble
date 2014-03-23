@@ -56,7 +56,7 @@ public class FlatTestSuite extends TestSuite {
     } else {
       //We have a suite method which will construct the test case.
       try {
-        Test suite = (Test) suiteMethod.invoke(null, new Object[] {});
+        Test suite = (Test) suiteMethod.invoke(null);
         addTest(suite);
       } catch (InvocationTargetException e) {
         // Should never happen - static method
@@ -93,7 +93,7 @@ public class FlatTestSuite extends TestSuite {
    * leaf tests.
    */
   @Override
-public void addTest(final Test t) {
+  public void addTest(final Test t) {
     if (t instanceof TestSuite) {
       TestSuite suite = (TestSuite) t;
 
