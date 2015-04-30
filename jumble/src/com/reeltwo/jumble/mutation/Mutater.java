@@ -501,7 +501,7 @@ public class Mutater {
 
   private boolean isMutatableClass(final JavaClass clazz) {
     return isMutatable(clazz.getAnnotationEntries());
-  }  
+  }
   private boolean isMutatableMethod(final Method m) {
     if (!isMutatable(m.getAnnotationEntries())) {
       return false;
@@ -621,6 +621,17 @@ public class Mutater {
 
     if (!isMutatableClass(clazz)) {
       return 0;
+    }
+
+    if (clazz.isNested()) { // Inner classes of a class with JumbleIgnore shall also be ignored
+      final int lastDollar = className.lastIndexOf('$');
+      if (lastDollar != -1) {
+        final String outerClassName = className.substring(0, lastDollar);
+        final JavaClass outer = lookupClass(outerClassName);
+        if (outer != null && !isMutatableClass(outer)) {
+          return 0;
+        }
+      }
     }
 
     final Method[] methods = clazz.getMethods();
