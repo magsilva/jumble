@@ -144,7 +144,11 @@ public class FastRunner {
     // This lets us run more mutation tests in each sub-JVM
     // without running out of space for classes.  Also consider
     // setting setMaxExternalMutations.
-    mJvmArgs.add("-XX:PermSize=128m");
+    final String jvm = System.getProperty("java.specification.version");
+    if (jvm != null && jvm.compareTo("1.8") < 0) {
+    	// This JVM flag was removed in JDK 1.8.  
+    	mJvmArgs.add("-XX:PermSize=128m");
+    }
     mJvmArgs.add("-cp");
     mJvmArgs.add(System.getProperty("java.class.path"));
   }
