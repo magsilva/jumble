@@ -144,8 +144,12 @@ public class FastRunner {
     // This lets us run more mutation tests in each sub-JVM
     // without running out of space for classes.  Also consider
     // setting setMaxExternalMutations.
-    final String jvm = System.getProperty("java.specification.version");
-    if (jvm != null && jvm.compareTo("1.8") < 0) {
+    final String vmname = System.getProperty("java.vm.name");
+    final String jspec = System.getProperty("java.specification.version");
+    //System.out.println("java.vm.name=" + vmname);
+    //System.out.println("java.specification.version=" + jspec);
+    if (vmname != null && vmname.startsWith("Java HotSpot")
+        && jspec != null && jspec.compareTo("1.8") < 0) {
     	// This JVM flag was removed in JDK 1.8.  
     	mJvmArgs.add("-XX:PermSize=128m");
     }
