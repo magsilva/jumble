@@ -206,5 +206,4 @@ Links
 =====
 Jumble Web Site:           http://jumble.sourceforge.net
 Jumble Mailing Lists:      http://sourceforge.net/mail/?group_id=193434
-Jumble Forums:             https://sourceforge.net/forum/?group_id=193434
 Mutation Testing Overview: http://en.wikipedia.org/wiki/Mutation_testing

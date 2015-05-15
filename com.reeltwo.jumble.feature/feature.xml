@@ -2,7 +2,7 @@
 <feature
       id="com.reeltwo.jumble.feature"
       label="Jumble Mutation Test Tool"
-      version="1.2.0"
+      version="1.3.0"
       provider-name="REELTWO">
 
    <description url="http://jumble.sourceforge.net">
@@ -14,22 +14,20 @@ test cases are then executed.  If the modified code fails the
 tests, then this increases confidence in the tests.  Conversely,
 if the modified code passes the tests this indicates a testing
 deficiency.
-
-&lt;p&gt;
 After installing this plugin, you can run Jumble on one of your
 Java source code classes by selecting that class and running
 the command (right click context menu):
-&lt;pre&gt;
+[
 Jumble Mutation Tester / Analyze tests of this class
-&lt;/pre&gt;
+]
 Note that you should run Jumble on your application classes,
 not your test classes.  For each application class, Jumble expects
 to find an associated test class by following standard naming
 conventions.  For example:
-&lt;pre&gt;
+[
 org.project.MyApp.java       // the class to be mutated.
 org.project.MyAppTest.java   // the corresponding test class.
-&lt;/pre&gt;
+]
 This should work if your test class is anywhere in the classpath
 for that project, but it must be in the same package as the application
 class.
@@ -212,6 +210,7 @@ END OF TERMS AND CONDITIONS
       <import plugin="org.eclipse.jdt.launching" version="3.6.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.console" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.ui.workbench" version="0.10.3" match="greaterOrEqual"/>
    </requires>
 
    <plugin

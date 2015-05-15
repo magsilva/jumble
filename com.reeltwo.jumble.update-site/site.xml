@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Jumble Eclipse Update Site" url="https://sourceforge.net/projects/jumble/files/jumble/1.2.0/">
+   <description name="Jumble Eclipse Update Site" url="http://sourceforge.net/projects/jumble/files/jumble/1.3.0/">
       This update site allows you to install the latest version of the Jumble Test Analysis plugin into Eclipse.   
 (In Eclipse, use Help / Install New Software, then Add this site to install the Jumble plugin).  
 After installing the plugin, right click on a Java class and use the &quot;Jumble Mutation Tester&quot; menu entry to analyze how well that class is tested.
    </description>
-   <feature url="features/com.reeltwo.jumble.feature_1.2.0.jar" id="com.reeltwo.jumble.feature" version="1.2.0">
+   <feature url="features/com.reeltwo.jumble.feature_1.3.0.jar" id="com.reeltwo.jumble.feature" version="1.3.0">
       <category name="Jumble Test Analysis"/>
    </feature>
    <category-def name="Jumble Test Analysis" label="Jumble Test Analysis">
       <description>
-         Mutation-based test analysis tools.
+         Jumble Mutation Analyser for JUnit tests.
       </description>
    </category-def>
 </site>
