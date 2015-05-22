@@ -41,6 +41,7 @@ public class Jumble {
     final CLIFlags flags = new CLIFlags("Jumble");
     final Flag verboseFlag = flags.registerOptional('v', "verbose", "Provide extra output during run.");
     final Flag<String> exFlag = flags.registerOptional('x', "exclude", String.class, "METHOD", "Comma-separated list of methods to globally exclude. You can also exclude individual methods via the @JumbleIgnore annotation.");
+    final Flag printTestNamesFlag = flags.registerOptional("print-test-names", "Print the list of tests classes to run then exit.");
     final Flag retFlag = flags.registerOptional('r', "return-vals", "Mutate return values.");
     final Flag inlFlag = flags.registerOptional('k', "inline-consts", "Mutate inline constants.");
     final Flag incFlag = flags.registerOptional('i', "increments", "Mutate increments.");
@@ -139,6 +140,16 @@ public class Jumble {
       }
     } else {
       testList.addAll(getTestClassNames(className, mFastRunner.getClassPath()));
+    }
+
+    if (printTestNamesFlag.isSet()) {
+      // Print the list of test names that would be run.  This is useful for
+      // scripts wanting to discover the names of the test classes when the
+      // @TestClass attribute has been used.
+      for (final String testClass : testList) {
+        System.out.println(testClass);
+      }
+      return; // Don't actually run jumble
     }
 
     final JumbleListener listener;
